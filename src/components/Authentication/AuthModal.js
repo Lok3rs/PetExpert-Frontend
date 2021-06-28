@@ -28,8 +28,8 @@ const ModalOverlay = props => {
     return (
         <Card className={styles.modal}>
             <header className={styles.header}>
-                <button onClick={showLoginHandler}>Login</button>
-                <button onClick={showRegisterHandler}>Register</button>
+                <button onClick={showLoginHandler}>Logowanie</button>
+                <button onClick={showRegisterHandler}>Rejestracja</button>
             </header>
             {
                 visibleForm === 'login' && <Login />
