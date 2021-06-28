@@ -1,0 +1,42 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import styles from './AuthModal.module.css';
+import Card from "../UI/Card";
+
+const Backdrop = props => {
+    return (
+        <div className={styles.backdrop}>
+
+        </div>
+    )
+}
+
+const ModalOverlay = props => {
+    return (
+        <Card className={styles.modal}>
+            <header className={styles.header}>
+                <h2>{props.title}</h2>
+            </header>
+            {props.children}
+        </Card>
+    )
+};
+
+const AuthModal = (props) => {
+    return (
+        <React.Fragment>
+            {ReactDOM.createPortal(
+                <Backdrop
+                    onConfirm={props.onConfirm}/>,
+                document.getElementById('backdrop-root'))}
+
+            {ReactDOM.createPortal(
+                <ModalOverlay
+                    title={props.title}/>,
+                document.getElementById('overlay-root'))}
+        </React.Fragment>
+    );
+};
+
+export default AuthModal;

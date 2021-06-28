@@ -1,5 +1,5 @@
 import React from 'react';
-import MainNavbar from "./Navbar/MainNavbar";
+import MainNavbar from "./MainNavbar/MainNavbar";
 
 import styles from "./MainScreen.module.css";
 import ServicesBar from "./ServicesBar/ServicesBar";
