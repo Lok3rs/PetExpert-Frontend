@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import styles from './AuthModal.module.css';
 import Card from "../UI/Card";
 import Login from "./Login";
+import BaseRegister from "./BaseRegister";
 
 const Backdrop = props => {
     return (
@@ -33,6 +34,9 @@ const ModalOverlay = props => {
             </header>
             {
                 visibleForm === 'login' && <Login />
+            }
+            {
+                visibleForm === 'register' && <BaseRegister />
             }
         </Card>
     )
