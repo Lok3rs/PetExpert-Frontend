@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 import styles from './AuthModal.module.css';
 import Card from "../UI/Card";
+import Login from "./Login";
 
 const Backdrop = props => {
     return (
@@ -13,13 +14,26 @@ const Backdrop = props => {
 }
 
 const ModalOverlay = props => {
+
+    const [visibleForm, setVisibleForm] = useState('login');
+
+    const showLoginHandler = () => {
+        setVisibleForm('login');
+    }
+
+    const showRegisterHandler = () => {
+        setVisibleForm('register');
+    }
+
     return (
         <Card className={styles.modal}>
             <header className={styles.header}>
-                <button>Login</button>
-                <button>Register</button>
+                <button onClick={showLoginHandler}>Login</button>
+                <button onClick={showRegisterHandler}>Register</button>
             </header>
-
+            {
+                visibleForm === 'login' && <Login />
+            }
         </Card>
     )
 };
