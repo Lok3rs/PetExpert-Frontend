@@ -22,8 +22,7 @@ const BaseRegister = () => {
             <small className={styles.invalid}>Ten email istnieje już w bazie danych</small>,
         unsecurePassword:
             <small className={styles.invalid}>
-                Hasło musi zawierać przynajmniej 8 znaków w tym jedną wielką, jedną małą literę, liczbę oraz znak
-                specjalny
+                Hasło musi zawierać przynajmniej 8 znaków w tym jedną małą i wielką literę, cyfrę oraz znak specjalny
             </small>,
         differentPasswords:
             <small className={styles.invalid}>Podane hasła różnią się od siebie</small>
@@ -46,7 +45,7 @@ const BaseRegister = () => {
     const allowRegisterHandler = () => {
         // TODO: MAKE IT WORKING ASYNCHRONOUSLY !!!!
         setRegisterAllowed(
-            passwordField.value.length > 0 && confirmPasswordField.value.length > 0 && emailField.value.length > 0 &&
+            passwordField != null && confirmPasswordField != null && emailField != null &&
             validEmail && validPassword && matchingPasswords
         );
     }
