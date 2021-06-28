@@ -16,9 +16,10 @@ const ModalOverlay = props => {
     return (
         <Card className={styles.modal}>
             <header className={styles.header}>
-                <h2>{props.title}</h2>
+                <button>Login</button>
+                <button>Register</button>
             </header>
-            {props.children}
+
         </Card>
     )
 };
@@ -33,8 +34,11 @@ const AuthModal = (props) => {
 
             {ReactDOM.createPortal(
                 <ModalOverlay
-                    title={props.title}/>,
+                    title={props.title}>
+                    {props.children}
+                </ModalOverlay>,
                 document.getElementById('overlay-root'))}
+
         </React.Fragment>
     );
 };
