@@ -8,35 +8,38 @@ import BaseRegister from "./BaseRegister";
 
 const Backdrop = props => {
     return (
-        <div className={styles.backdrop}>
+        <div className={styles.backdrop} onClick={props.onClick}>
 
         </div>
     )
 }
 
-const ModalOverlay = props => {
+const ModalOverlay = () => {
 
     const [visibleForm, setVisibleForm] = useState('login');
 
-    const showLoginHandler = event => {
+    const showLoginHandler = () => {
         setVisibleForm('login');
     }
 
-    const showRegisterHandler = event => {
+    const showRegisterHandler = () => {
         setVisibleForm('register');
     }
 
     return (
         <Card className={styles.modal}>
             <header className={styles.header}>
-                <button className={visibleForm === 'login' && styles.active} onClick={showLoginHandler}>Logowanie</button>
-                <button className={visibleForm === 'register' && styles.active} onClick={showRegisterHandler}>Rejestracja</button>
+                <button className={visibleForm === 'login' && styles.active} onClick={showLoginHandler}>Logowanie
+                </button>
+                <button className={visibleForm === 'register' && styles.active}
+                        onClick={showRegisterHandler}>Rejestracja
+                </button>
             </header>
             {
-                visibleForm === 'login' && <Login />
+                visibleForm === 'login' && <Login/>
             }
             {
-                visibleForm === 'register' && <BaseRegister />
+                visibleForm === 'register' && <BaseRegister/>
             }
         </Card>
     )
@@ -47,12 +50,11 @@ const AuthModal = (props) => {
         <React.Fragment>
             {ReactDOM.createPortal(
                 <Backdrop
-                    onConfirm={props.onConfirm}/>,
+                    onClick={props.changeVisibility}/>,
                 document.getElementById('backdrop-root'))}
 
             {ReactDOM.createPortal(
-                <ModalOverlay
-                    title={props.title}>
+                <ModalOverlay>
                     {props.children}
                 </ModalOverlay>,
                 document.getElementById('overlay-root'))}

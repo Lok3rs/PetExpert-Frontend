@@ -21,7 +21,7 @@ return (
     <>
         {
             showAuth && (
-                <AuthModal title={"Login"}/>
+                <AuthModal changeVisibility={changeAuthVisibility} title={"Login"}/>
             )
         }
         <Navbar className={`d-flex justify-content-between align-items-center py-1 ${styles.bgTransparent}`}>
