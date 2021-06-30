@@ -18,19 +18,19 @@ const ModalOverlay = props => {
 
     const [visibleForm, setVisibleForm] = useState('login');
 
-    const showLoginHandler = () => {
+    const showLoginHandler = event => {
         setVisibleForm('login');
     }
 
-    const showRegisterHandler = () => {
+    const showRegisterHandler = event => {
         setVisibleForm('register');
     }
 
     return (
         <Card className={styles.modal}>
             <header className={styles.header}>
-                <button onClick={showLoginHandler}>Logowanie</button>
-                <button onClick={showRegisterHandler}>Rejestracja</button>
+                <button className={visibleForm === 'login' && styles.active} onClick={showLoginHandler}>Logowanie</button>
+                <button className={visibleForm === 'register' && styles.active} onClick={showRegisterHandler}>Rejestracja</button>
             </header>
             {
                 visibleForm === 'login' && <Login />

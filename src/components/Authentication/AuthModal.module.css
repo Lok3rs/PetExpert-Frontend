@@ -48,3 +48,7 @@
 .header button:first-child {
     border-right: 1px solid #d6d6d6;
 }
+
+.active {
+    background-color: #d6d6d6 !important;
+}
