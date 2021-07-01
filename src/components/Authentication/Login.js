@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, OverlayTrigger} from "react-bootstrap";
 
 import styles from './Login.module.css';
+import InfoPopover from "../UI/InfoPopover";
 
 
 const Login = () => {
@@ -10,7 +11,8 @@ const Login = () => {
     const errors = {
         invalidEmail: <small className={styles.invalid}>Nieprawidłowy adres email</small>,
         tooShortPassword: <small className={styles.invalid}>Podane hasło jest zbyt krótkie</small>,
-        invalidCredentials: <div className={`${styles.invalidCred} ${styles.invalid}`}>Niepoprawny email i/lub hasło</div>
+        invalidCredentials: <div className={`${styles.invalidCred} ${styles.invalid}`}>Niepoprawny email i/lub
+            hasło</div>
     }
 
     const [validEmail, setValidEmail] = useState(true);
@@ -32,9 +34,7 @@ const Login = () => {
     const allowLoginHandler = () => {
         const passwordField = document.getElementById('passwordField');
         const emailField = document.getElementById('emailField');
-        setLoginAllowed(
-            passwordField.value.length > 0 && emailField.value.length > 0 && validPassword && validEmail
-        );
+
     }
 
     const loginHandler = (event) => {
@@ -50,19 +50,20 @@ const Login = () => {
             <Form.Group>
                 <Form.Label>Email</Form.Label>
                 <Form.Control id={'emailField'} type="email" placeholder="Wprowadź email" onChange={validateEmail}/>
-                    {!validEmail && errors.invalidEmail}
+                {!validEmail && errors.invalidEmail}
             </Form.Group>
             <Form.Group>
                 <Form.Label>Hasło</Form.Label>
-                <Form.Control id={'passwordField'} type="password" placeholder="Hasło" onChange={validatePassword} />
+                <Form.Control id={'passwordField'} type="password" placeholder="Hasło" onChange={validatePassword}/>
                 {!validPassword && errors.tooShortPassword}
             </Form.Group>
             <Form.Group>
                 <Form.Check type="checkbox" label="Zapamiętaj mnie"/>
             </Form.Group>
-            <Button variant="primary" type="submit" disabled={!loginAllowed} onClick={loginHandler}>
+            <Button variant="primary" type="submit" onClick={loginHandler}>
                 Zaloguj
             </Button>
+
         </Form>
     )
 };
