@@ -441,17 +441,12 @@ const ProviderRegister = (props) => {
                                 return (
                                     <Dropdown key={service} className={`dropdown`}>
                                         <label className={`px-2`}>
-                                            <input
+                                            <Form.Check
                                                 type="checkbox"
                                                 value={servicesCodes[service]}
-                                                className={'mr-1'}
+                                                className={'mr-1 d-inline'}
                                                 onChange={chooseServiceHandler}
-
-                                                onLoad={(event) => {
-                                                    if (chosenServices.indexOf(service) >= 0) {
-                                                        event.target.checked = true;
-                                                    }
-                                                }}
+                                                checked={chosenServices.some(serv => serv === String(servicesCodes[service]))}
                                             />
                                             {service}
                                         </label>
