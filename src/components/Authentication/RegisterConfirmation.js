@@ -21,7 +21,7 @@ const RegisterConfirmation = () => {
                 <>
                     <FontAwesomeIcon className={styles.confirmIcon} icon={faCheckCircle}/>
                     <h4 className={`align-self-end`}>Rejestracja zakończona pomyślnie.</h4>
-                    <h6>Na Twój adres mailowy wysłaliśmy linka z linkiem aktywującym Twoje konto.</h6>
+                    <h6>Na Twój adres mailowy wysłaliśmy wiadomość z linkiem aktywującym Twoje konto.</h6>
                 </>
 
             }
