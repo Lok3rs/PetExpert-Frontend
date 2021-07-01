@@ -689,7 +689,7 @@ const ProviderRegister = (props) => {
     return (
         <div className={`${styles.wrapper}`}>
             <div className={`text-right pr-3 mb-0 pb-0`}>
-                <FontAwesomeIcon icon={faTimes} onClick={props.closeForm}/>
+                <FontAwesomeIcon icon={faTimes} onClick={props.closeAll}/>
             </div>
             <header className={`text-center pb-2 mt-0 ${styles.header}`}>
                 <h4>Rejestracja dla usługodawców</h4>
