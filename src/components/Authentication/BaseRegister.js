@@ -169,10 +169,12 @@ const BaseRegister = (props) => {
                         Zarejestruj
                     </Button>
                 </Form> :
-                <RegisterConfirmation />
+                <RegisterConfirmation>
+                    Na Twój adres mailowy wysłaliśmy wiadomość z linkiem aktywującym Twoje konto.
+                </RegisterConfirmation>
             }
         </>
     )
-}
+};
 
 export default BaseRegister;

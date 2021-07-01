@@ -6,7 +6,7 @@ import {Spinner} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 
-const RegisterConfirmation = () => {
+const RegisterConfirmation = (props) => {
 
     const [showSpinner, setShowSpinner] = useState(true);
 
@@ -15,15 +15,14 @@ const RegisterConfirmation = () => {
     }, 2000);
 
     return (
-        <div className={`py-4 px-1 text-center ${styles.wrapper}`}>
+        <div className={`py-4 px-1 text-center ${styles.wrapper} ${props.provider && styles.providerWrapper}`}>
             { showSpinner ?
                 <Spinner animation={"border"} variant={"primary"}/> :
                 <>
                     <FontAwesomeIcon className={styles.confirmIcon} icon={faCheckCircle}/>
                     <h4 className={`align-self-end`}>Rejestracja zakończona pomyślnie.</h4>
-                    <h6>Na Twój adres mailowy wysłaliśmy wiadomość z linkiem aktywującym Twoje konto.</h6>
+                    <h6>{props.children}</h6>
                 </>
-
             }
         </div>
     )

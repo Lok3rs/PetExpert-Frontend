@@ -53,9 +53,8 @@ const ModalOverlay = (props) => {
                 }
             </Card> :
 
-                ReactDOM.createPortal(<ProviderRegister closeForm={changeProviderRegistrationFormVisibility}/>,
+                ReactDOM.createPortal(<ProviderRegister closeAll={props.changeAuthVisibility} closeForm={changeProviderRegistrationFormVisibility}/>,
                     document.getElementById('overlay-root'))
-
 
         }
         </>
@@ -79,7 +78,9 @@ const AuthModal = (props) => {
                 document.getElementById('backdrop-root'))}
 
             {ReactDOM.createPortal(
-                <ModalOverlay changeBackdropVisibility={changeBackdropVisibility}>
+                <ModalOverlay
+                    changeAuthVisibility={props.changeVisibility}
+                    changeBackdropVisibility={changeBackdropVisibility}>
                     {props.children}
                 </ModalOverlay>,
                 document.getElementById('overlay-root'))}

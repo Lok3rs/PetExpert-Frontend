@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Button, Form, Dropdown, DropdownButton} from "react-bootstrap";
+import RegisterConfirmation from "./RegisterConfirmation";
 
 const ProviderRegister = (props) => {
 
@@ -30,7 +31,7 @@ const ProviderRegister = (props) => {
             <small className={styles.invalid}>Musisz wybrać przynajmniej jedno pole.</small>
     }
 
-    const [pageVisible, setPageVisible] = useState("third");
+    const [pageVisible, setPageVisible] = useState("registered");
 
     // ====================================
     //             FIRST PAGE
@@ -605,6 +606,11 @@ const ProviderRegister = (props) => {
     //             CONFIRM PAGE
     // ====================================
 
+    const registerHandler = () => {
+        // TODO: Fetch and check if response is OK!
+        setPageVisible('registered');
+    }
+
     const ConfirmPage = () => {
         return (
             <>
@@ -643,7 +649,7 @@ const ProviderRegister = (props) => {
                     <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('third')}>
                         Wróć
                     </Button>
-                    <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
+                    <Button variant="primary" className={styles.btnPages} onClick={registerHandler}>
                         Zarejestruj
                     </Button>
                 </div>
@@ -651,27 +657,48 @@ const ProviderRegister = (props) => {
         )
     };
 
-const page =
-    {
-        "first": FirstPage,
-        "second": SecondPage,
-        "third": ThirdPage,
-        'confirm': ConfirmPage
-    };
+    // ====================================
+    //             REGISTERED PAGE
+    // ====================================
 
-return (
-    <div className={`${styles.wrapper}`}>
-        <div className={`text-right pr-3 mb-0 pb-0`}>
-            <FontAwesomeIcon icon={faTimes} onClick={props.closeForm}/>
+    const RegisteredPage = () => {
+            return (
+                <>
+                    <RegisterConfirmation provider={true}>
+                        Administracja analizuje Twoje zgłoszenie.
+                        Po zakończonej analizie dostaniesz wiadomość email z dalszą instrukcją.
+                        <div className="text-center">
+                            <Button variant="primary" onClick={props.closeAll} className={`mt-2`}>
+                                Wróć na stronę główną
+                            </Button>
+                        </div>
+                    </RegisterConfirmation>
+                </>
+            )
+        };
+
+    const page =
+        {
+            "first": FirstPage,
+            "second": SecondPage,
+            "third": ThirdPage,
+            'confirm': ConfirmPage,
+            'registered': RegisteredPage
+        };
+
+    return (
+        <div className={`${styles.wrapper}`}>
+            <div className={`text-right pr-3 mb-0 pb-0`}>
+                <FontAwesomeIcon icon={faTimes} onClick={props.closeForm}/>
+            </div>
+            <header className={`text-center pb-2 mt-0 ${styles.header}`}>
+                <h4>Rejestracja dla usługodawców</h4>
+            </header>
+            <Form className={`px-2 pt-3`}>
+                {page[pageVisible]()}
+            </Form>
         </div>
-        <header className={`text-center pb-2 mt-0 ${styles.header}`}>
-            <h4>Rejestracja dla usługodawców</h4>
-        </header>
-        <Form className={`px-2 pt-3`}>
-            {page[pageVisible]()}
-        </Form>
-    </div>
-)
+    )
 };
 
 export default ProviderRegister;
