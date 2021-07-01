@@ -5,7 +5,7 @@ import styles from './ProviderRegister.module.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Dropdown, DropdownButton} from "react-bootstrap";
 
 const ProviderRegister = (props) => {
 
@@ -25,7 +25,9 @@ const ProviderRegister = (props) => {
         invalidPostCode:
             <small className={styles.invalid}>Nieprawidłowy kod.</small>,
         invalidNIPNumber:
-            <small className={styles.invalid}>Nieprawidłowy numer NIP.</small>
+            <small className={styles.invalid}>Nieprawidłowy numer NIP.</small>,
+        noServicesSelected:
+            <small className={styles.invalid}>Musisz wybrać przynajmniej jedno pole.</small>
     }
 
     const [pageVisible, setPageVisible] = useState("third");
@@ -341,96 +343,208 @@ const ProviderRegister = (props) => {
     //             THIRD PAGE
     // ====================================
 
+    const services = ["Behawiorystyka", "Hotel dla zwierząt / Petsitting", "Grooming", "Weterynaria"]
+
+    const servicesCodes = {
+        "Behawiorystyka": 1,
+        "Hotel dla zwierząt / Petsitting": 2,
+        "Grooming": 3,
+        "Weterynaria": 4
+    }
+
+    const [validServicePostCode, setValidServicePostCode] = useState(true);
+
+    const [selectedServices, setSelectedServices] = useState(true);
+    const [emptyServicePostCode, setEmptyServicePostCode] = useState(false);
+    const [emptyServiceCity, setEmptyServiceCity] = useState(false);
+    const [emptyServiceAddress, setEmptyServiceAddress] = useState(false);
+
+    const [chosenServices, setChosenServices] = useState([]);
+    const [servicePostCode, setServicePostCode] = useState('');
+    const [serviceCity, setServiceCity] = useState('');
+    const [serviceAddress, setServiceAddress] = useState('');
+    const [additionalInfo, setAdditionalInfo] = useState('');
+    const [sameCredentials, setSameCredentials] = useState(false);
+
+    const changeServicePostCodeHandler = (event) => {
+        setServicePostCode(event.target.value);
+        setEmptyServicePostCode(false);
+    };
+
+    const validateServicePostCode = () => {
+        const re = /^([0-9]{2})(-[0-9]{3})?$/;
+        setValidServicePostCode(re.test(String(servicePostCode)));
+        setEmptyServicePostCode(false);
+        setSameCredentials(false);
+    };
+
+    const changeServiceCityHandler = (event) => {
+        setServiceCity(event.target.value);
+        setEmptyServiceCity(false);
+        setSameCredentials(false);
+    };
+
+    const changeServiceAddressHandler = (event) => {
+        setServiceAddress(event.target.value);
+        setEmptyServiceAddress(false);
+        setSameCredentials(false);
+    };
+
+    const changeAdditionalInfoHandler = (event) => {
+        setAdditionalInfo(event.target.value);
+    };
+
+    const chooseServiceHandler = (event) => {
+        if (event.target.checked) {
+            setSelectedServices(true);
+            setChosenServices([...chosenServices, event.target.value]);
+        } else {
+            setChosenServices(chosenServices.filter(service => {
+                return service !== event.target.value;
+            }));
+        }
+    };
+
+    const fillAddressCredentials = (event) => {
+        setSameCredentials(event.target.checked);
+        setServiceAddress(enteredAddress);
+        setServiceCity(enteredCity);
+        setServicePostCode(enteredPostCode);
+    };
+
+    const validateSelectedServices = () => {
+        setSelectedServices(chosenServices.length > 0);
+    };
+
+    const validateThirdPage = () => {
+        validateSelectedServices();
+        const fields = [servicePostCode, serviceCity, serviceAddress]
+
+        if (fields.some(field => field.trim().length === 0)) {
+            setEmptyServicePostCode(servicePostCode.trim() === '');
+            setEmptyServiceCity(serviceCity.trim() === '');
+            setEmptyServiceAddress(serviceAddress.trim() === '');
+        } else {
+            setPageVisible('confirm')
+        }
+    };
+
     const ThirdPage = () => {
+            return (
+                <>
+                    <Form.Group>
+                        <Form.Label>
+                            Oferowane usługi
+                        </Form.Label>
+                        <DropdownButton variant={`secondary`} title={"Wybierz"} onBlur={validateSelectedServices}>
+                            {services.map((service) => {
+                                return (
+                                    <Dropdown key={service} className={`dropdown`}>
+                                        <label className={`px-2`}>
+                                            <input
+                                                type="checkbox"
+                                                value={servicesCodes[service]}
+                                                className={'mr-1'}
+                                                onChange={chooseServiceHandler}
+
+                                                onLoad={(event) => {
+                                                    if (chosenServices.indexOf(service) >= 0) {
+                                                        event.target.checked = true;
+                                                    }
+                                                }}
+                                            />
+                                            {service}
+                                        </label>
+                                    </Dropdown>
+                                )
+                            })}
+                        </DropdownButton>
+                        {!selectedServices && errors.noServicesSelected}
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Miejsce oferowanych usług</Form.Label>
+                        <Form.Check
+                            type="checkbox"
+                            label={"Takie same jak firmy"}
+                            className={"ml-4"}
+                            onChange={fillAddressCredentials}
+                            checked={sameCredentials}
+                        />
+                        {emptyNIPNumber && errors.emptyField}
+                        {(!validNIPNumber && !emptyNIPNumber) && errors.invalidNIPNumber}
+                    </Form.Group>
+                    <Form.Group className={`px-3 row`}>
+                        <div className="col-4 p-0">
+                            <Form.Label>Kod pocztowy</Form.Label>
+                            <Form.Control
+                                id={'servicePostCodeField'}
+                                placeholder="Kod"
+                                value={servicePostCode}
+                                onChange={changeServicePostCodeHandler}
+                                onBlur={validateServicePostCode}
+                            />
+                            {emptyServicePostCode && errors.emptyField}
+                            {(!validServicePostCode && !emptyServicePostCode) && errors.invalidPostCode}
+                        </div>
+                        <div className={"col-8 pr-0"}>
+                            <div className="p-0">
+                                <Form.Label>Miejscowość</Form.Label>
+                                <Form.Control
+                                    id={'serviceCityField'}
+                                    placeholder="Miejscowość"
+                                    value={serviceCity}
+                                    onChange={changeServiceCityHandler}
+                                />
+                                {emptyServiceCity && errors.emptyField}
+                            </div>
+                        </div>
+
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Ulica i numer domu</Form.Label>
+                        <Form.Control
+                            id={'serviceAddressField'}
+                            placeholder="Ulica i numer domu"
+                            value={serviceAddress}
+                            onChange={changeServiceAddressHandler}
+                        />
+                        {emptyServiceAddress && errors.emptyField}
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Dodatkowe informacje do administracji strony (opcjonalnie)</Form.Label>
+                        <Form.Control
+                            as={'textarea'}
+                            id={'additionalInfoField'}
+                            value={additionalInfo}
+                            onChange={changeAdditionalInfoHandler}
+                        />
+                    </Form.Group>
+                    <div className={`d-flex justify-content-between pb-2`}>
+                        <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('second')}>
+                            Poprzedni
+                        </Button>
+                        <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
+                            Następny
+                        </Button>
+                    </div>
+                </>
+            )
+        };
+
+    const ConfirmPage = () => {
       return (
           <>
-              <Form.Group>
-                  <Form.Label>Oferowane usługi</Form.Label>
-                  <Form.Control
-                      id={'companyNameField'}
-                      placeholder="Nazwa firmy"
-                      value={enteredCompanyName}
-                      type={'select'}
-                      onChange={changeCompanyNameHandler}
-                  />
-                  {emptyCompanyName && errors.emptyField}
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>NIP</Form.Label>
-                  <Form.Control
-                      id={'NIPNumberField'}
-                      placeholder="NIP firmy"
-                      value={enteredNIPNumber}
-                      onChange={changeNIPNumberHandler}
-                      onBlur={validateNIPNumber}
-                  />
-                  {emptyNIPNumber && errors.emptyField}
-                  {(!validNIPNumber && !emptyNIPNumber) && errors.invalidNIPNumber}
-              </Form.Group>
-              <Form.Group className={`px-3 row`}>
-                  <div className="col-4 p-0">
-                      <Form.Label>Kod pocztowy</Form.Label>
-                      <Form.Control
-                          id={'postCodeField'}
-                          placeholder="Kod"
-                          value={enteredPostCode}
-                          onChange={changePostCodeHandler}
-                          onBlur={validatePostCode}
-                      />
-                      {emptyPostCode && errors.emptyField}
-                      {(!validPostCode && !emptyPostCode) && errors.invalidPostCode}
-                  </div>
-                  <div className={"col-8 pr-0"}>
-                      <div className="p-0">
-                          <Form.Label>Miejscowość</Form.Label>
-                          <Form.Control
-                              id={'cityField'}
-                              placeholder="Miejscowość"
-                              value={enteredCity}
-                              onChange={changeCityHandler}
-                          />
-                          {emptyCity && errors.emptyField}
-                      </div>
-                  </div>
-
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>Ulica i numer domu</Form.Label>
-                  <Form.Control
-                      id={'addressField'}
-                      placeholder="Ulica i numer domu"
-                      value={enteredAddress}
-                      onChange={changeAddressHandler}
-                  />
-                  {emptyAddress && errors.emptyField}
-              </Form.Group>
-              <Form.Group>
-                  <Form.Label>Numer telefonu</Form.Label>
-                  <Form.Control
-                      id={'phoneNumberField'}
-                      placeholder="Numer telefonu"
-                      value={enteredPhoneNumber}
-                      onChange={changePhoneNumberHandler}
-                  />
-                  {emptyPhoneNumber && errors.emptyField}
-              </Form.Group>
-              <div className={`d-flex justify-content-between`}>
-                  <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('first')}>
-                      Poprzedni
-                  </Button>
-                  <Button variant="primary" className={styles.btnPages} onClick={validateSecondPage}>
-                      Następny
-                  </Button>
-              </div>
           </>
       )
     };
 
-    const page = {
-        "first": FirstPage,
-        "second": SecondPage,
-        "third": ThirdPage
-    };
+    const page =
+        {
+            "first": FirstPage,
+            "second": SecondPage,
+            "third": ThirdPage,
+            'confirm': ConfirmPage
+        };
 
     return (
         <div className={`${styles.wrapper}`}>
