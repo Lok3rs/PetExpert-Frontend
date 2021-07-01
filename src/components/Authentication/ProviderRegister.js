@@ -21,10 +21,14 @@ const ProviderRegister = (props) => {
         differentPasswords:
             <small className={styles.invalid}>Podane hasła różnią się od siebie</small>,
         emptyField:
-            <small className={styles.invalid}>To pole nie może być puste.</small>
+            <small className={styles.invalid}>To pole nie może być puste.</small>,
+        invalidPostCode:
+            <small className={styles.invalid}>Nieprawidłowy kod.</small>,
+        invalidNIPNumber:
+            <small className={styles.invalid}>Nieprawidłowy numer NIP.</small>
     }
 
-    const [pageVisible, setPageVisible] = useState("first");
+    const [pageVisible, setPageVisible] = useState("second");
 
     // ====================================
     //             FIRST PAGE
@@ -176,17 +180,179 @@ const ProviderRegister = (props) => {
     //             SECOND PAGE
     // ====================================
 
+    const [validPostCode, setValidPostCode] = useState(true);
+    const [validNIPNumber, setValidNIPNumber] = useState(true);
+
+    const [emptyCompanyName, setEmptyCompanyName] = useState(false);
+    const [emptyNIPNumber, setEmptyNIPNumber] = useState(false);
+    const [emptyPostCode, setEmptyPostCode] = useState(false);
+    const [emptyCity, setEmptyCity] = useState(false);
+    const [emptyAddress, setEmptyAddress] = useState(false);
+    const [emptyPhoneNumber, setEmptyPhoneNumber] = useState(false);
+
+    const [enteredCompanyName, setEnteredCompanyName] = useState('');
+    const [enteredNIPNumber, setEnteredNIPNumber] = useState('');
+    const [enteredPostCode, setEnteredPostCode] = useState('');
+    const [enteredCity, setEnteredCity] = useState('');
+    const [enteredAddress, setEnteredAddress] = useState('');
+    const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
+
+    const changeCompanyNameHandler = (event) => {
+        setEnteredCompanyName(event.target.value);
+        setEmptyCompanyName(false);
+    };
+
+    const changeNIPNumberHandler = (event) => {
+        setEnteredNIPNumber(event.target.value);
+        setEmptyNIPNumber(false);
+    };
+
+    const changePostCodeHandler = (event) => {
+        setEnteredPostCode(event.target.value);
+        setEmptyPostCode(false);
+    };
+
+    const changeCityHandler = (event) => {
+        setEnteredCity(event.target.value);
+        setEmptyCity(false);
+    };
+
+    const changeAddressHandler = (event) => {
+        setEnteredAddress(event.target.value);
+        setEmptyAddress(false);
+    };
+
+    const changePhoneNumberHandler = (event) => {
+        setEnteredPhoneNumber(event.target.value);
+        setEmptyPhoneNumber(false);
+    };
+
+    const validatePostCode = () => {
+        const re = /^([0-9]{2})(-[0-9]{3})?$/;
+        setValidPostCode(re.test(String(enteredPostCode)));
+    };
+
+    const validateNIPNumber = () => {
+        const re = /^(\d{10})$/;
+        setValidNIPNumber(re.test(String(enteredNIPNumber)));
+    };
+
+    const validateSecondPage = () => {
+        const fields = [enteredCompanyName, enteredNIPNumber, enteredPostCode, enteredCity, enteredAddress, enteredPhoneNumber]
+        validatePostCode();
+        validateNIPNumber();
+        if (fields.some(field => field.trim().length === 0)) {
+            setEmptyCompanyName(enteredCompanyName.trim() === '');
+            setEmptyNIPNumber(enteredNIPNumber.trim() === '');
+            setEmptyCity(enteredCity.trim() === '');
+            setEmptyAddress(enteredAddress.trim() === '');
+            setEmptyPostCode(enteredPostCode.trim() === '');
+            setEmptyPhoneNumber(enteredPhoneNumber.trim() === '');
+        } else if (validPostCode && validNIPNumber) {
+            setPageVisible("third");
+        }
+    };
+
     const SecondPage = () => {
         return (
-            <div>
+            <>
+                <Form.Group>
+                    <Form.Label>Nazwa firmy</Form.Label>
+                    <Form.Control
+                        id={'companyNameField'}
+                        placeholder="Nazwa firmy"
+                        value={enteredCompanyName}
+                        onChange={changeCompanyNameHandler}
+                    />
+                    {emptyCompanyName && errors.emptyField}
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>NIP</Form.Label>
+                    <Form.Control
+                        id={'NIPNumberField'}
+                        placeholder="NIP firmy"
+                        value={enteredNIPNumber}
+                        onChange={changeNIPNumberHandler}
+                        onBlur={validateNIPNumber}
+                    />
+                    {emptyNIPNumber && errors.emptyField}
+                    {(!validNIPNumber && !emptyNIPNumber) && errors.invalidNIPNumber}
+                </Form.Group>
+                <Form.Group className={`px-3 row`}>
+                    <div className="col-4 p-0">
+                        <Form.Label>Kod pocztowy</Form.Label>
+                        <Form.Control
+                            id={'postCodeField'}
+                            placeholder="Kod"
+                            value={enteredPostCode}
+                            onChange={changePostCodeHandler}
+                            onBlur={validatePostCode}
+                        />
+                        {emptyPostCode && errors.emptyField}
+                        {(!validPostCode && !emptyPostCode) && errors.invalidPostCode}
+                    </div>
+                    <div className={"col-8 pr-0"}>
+                        <div className="p-0">
+                            <Form.Label>Miejscowość</Form.Label>
+                            <Form.Control
+                                id={'cityField'}
+                                placeholder="Miejscowość"
+                                value={enteredCity}
+                                onChange={changeCityHandler}
+                            />
+                            {emptyCity && errors.emptyField}
+                        </div>
+                    </div>
 
-            </div>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Ulica i numer domu</Form.Label>
+                    <Form.Control
+                        id={'addressField'}
+                        placeholder="Ulica i numer domu"
+                        value={enteredAddress}
+                        onChange={changeAddressHandler}
+                    />
+                    {emptyAddress && errors.emptyField}
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Numer telefonu</Form.Label>
+                    <Form.Control
+                        id={'phoneNumberField'}
+                        placeholder="Numer telefonu"
+                        value={enteredPhoneNumber}
+                        onChange={changePhoneNumberHandler}
+                    />
+                    {emptyPhoneNumber && errors.emptyField}
+                </Form.Group>
+                <div className={`d-flex justify-content-between`}>
+                    <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('first')}>
+                        Poprzedni
+                    </Button>
+                    <Button variant="primary" className={styles.btnPages} onClick={validateSecondPage}>
+                        Następny
+                    </Button>
+                </div>
+            </>
         )
     }
 
+    // ====================================
+    //             THIRD PAGE
+    // ====================================
+
+    const ThirdPage = () => {
+      return (
+          <div>
+              WORKS
+          </div>
+      )
+    };
+
     const page = {
         "first": FirstPage,
-        "second": SecondPage
+        "second": SecondPage,
+        "third": ThirdPage
     };
 
     return (
