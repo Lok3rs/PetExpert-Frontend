@@ -8,3 +8,11 @@
     background-color: transparent;
     margin: 0 1rem 1rem;
 }
+
+.actLink {
+    color: #0000ff;
+}
+
+.actLink:hover {
+    text-decoration: underline;
+}

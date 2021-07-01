@@ -27,9 +27,10 @@ const ModalOverlay = () => {
     }
 
     return (
-        <Card className={styles.modal}>
+        <Card className={`${styles.modal} ${visibleForm === 'register' && styles.modalRegister}`}>
             <header className={styles.header}>
-                <button className={visibleForm === 'login' && styles.active} onClick={showLoginHandler}>Logowanie
+                <button className={visibleForm === 'login' && styles.active}
+                        onClick={showLoginHandler}>Logowanie
                 </button>
                 <button className={visibleForm === 'register' && styles.active}
                         onClick={showRegisterHandler}>Rejestracja

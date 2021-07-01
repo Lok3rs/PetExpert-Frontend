@@ -38,7 +38,7 @@ const BaseRegister = () => {
         setValidPassword(re.test(String(event.target.value)));
     };
 
-    const validateConfirmPassword = (event) => {
+    const validateConfirmPassword = () => {
         setMatchingPasswords(passwordField.value === confirmPasswordField.value);
     };
 
@@ -54,6 +54,14 @@ const BaseRegister = () => {
     return (
         <Form className={`${styles.registerForm}`} onChange={allowRegisterHandler}>
             <Form.Group>
+                <Form.Label>Imię</Form.Label>
+                <Form.Control required id={'emailField'} type="email" placeholder="Twoje imię"/>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Nazwisko</Form.Label>
+                <Form.Control required id={'emailField'} type="email" placeholder="Twoje nazwisko"/>
+            </Form.Group>
+            <Form.Group>
                 <Form.Label>Email</Form.Label>
                 <Form.Control id={'emailField'} type="email" placeholder="Wprowadź email" onChange={validateEmail}/>
                 {!validEmail && errors.invalidEmail}
@@ -63,12 +71,19 @@ const BaseRegister = () => {
                 <Form.Control id={'passwordField'} type="password" placeholder="Hasło" onChange={validatePassword}/>
                 {!validPassword && errors.unsecurePassword}
             </Form.Group>
-            <Form.Group>
+            <Form.Group className={`mb-0`}>
                 <Form.Label>Powtórz hasło</Form.Label>
                 <Form.Control id={'confirmPasswordField'} type="password" placeholder="Powtórz hasło"
                               onChange={validateConfirmPassword}/>
                 {!matchingPasswords && errors.differentPasswords}
             </Form.Group>
+            <div className={`mb-1`}>
+                <small>
+                    Chcesz zaoferować swoje usługi? Skorzystaj z
+                    <span className={styles.actLink}> rejestracji dla usługodawców.</span>
+                </small>
+            </div>
+
             <Button variant="primary" type="submit" disabled={!registerAllowed}>
                 Zarejestruj
             </Button>
