@@ -11,7 +11,8 @@ const Login = () => {
         invalidEmail: <small className={styles.invalid}>Nieprawidłowy adres email</small>,
         tooShortPassword: <small className={styles.invalid}>Podane hasło jest zbyt krótkie</small>,
         invalidCredentials: <div className={`${styles.invalidCred} ${styles.invalid}`}>Niepoprawny email i/lub
-            hasło</div>
+            hasło</div>,
+        emptyField: <small className={styles.invalid}>To pole nie może być puste.</small>
     }
 
     const [enteredEmail, setEnteredEmail] = useState('');
@@ -20,35 +21,41 @@ const Login = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [invalidCredentials, setInvalidCredentials] = useState(false);
+    const [emptyEmailField, setEmptyEmailField] = useState(false);
+    const [emptyPasswordField, setEmptyPasswordField] = useState(false);
 
     const emailChangeHandler = event => {
         setEnteredEmail(event.target.value);
+        setEmptyEmailField(false);
     };
 
     const validateEmail = () => {
+        setEmptyEmailField(false);
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         setValidEmail(re.test(String(enteredEmail).toLowerCase()));
     };
 
     const passwordChangeHandler = (event) => {
         setEnteredPassword(event.target.value);
+        setEmptyPasswordField(false);
     }
 
     const validatePassword = () => {
+        setEmptyPasswordField(false);
         setValidPassword(enteredPassword.length >= 8);
     };
 
-    const validateForm = () => {
-        validateEmail();
-        validatePassword();
-    };
 
     const loginHandler = (event) => {
         event.preventDefault();
-        validateForm();
-        if (validEmail && validPassword) {
+        if (enteredPassword.length === 0 || enteredEmail.length === 0) {
+            setEmptyPasswordField(enteredPassword.length === 0);
+            setEmptyEmailField(enteredEmail.length === 0);
+        } else if (validEmail && validPassword) {
             // TODO: fetch login API and check validity of credentials
-            setInvalidCredentials(true);
+            setInvalidCredentials(true)
+        } else {
+            alert("Niepoprawne dane")
         }
 
     }
@@ -66,6 +73,7 @@ const Login = () => {
                     onChange={emailChangeHandler}
                     value={enteredEmail}
                 />
+                {emptyEmailField && errors.emptyField}
                 {!validEmail && errors.invalidEmail}
             </Form.Group>
             <Form.Group>
@@ -78,7 +86,8 @@ const Login = () => {
                     onChange={passwordChangeHandler}
                     value={enteredPassword}
                 />
-                {!validPassword && errors.tooShortPassword}
+                {emptyPasswordField && errors.emptyField}
+                {(!validPassword) && errors.tooShortPassword}
             </Form.Group>
             <Form.Group>
                 <Form.Check type="checkbox" label="Zapamiętaj mnie"/>
