@@ -28,7 +28,7 @@ const ProviderRegister = (props) => {
             <small className={styles.invalid}>Nieprawidłowy numer NIP.</small>
     }
 
-    const [pageVisible, setPageVisible] = useState("second");
+    const [pageVisible, setPageVisible] = useState("third");
 
     // ====================================
     //             FIRST PAGE
@@ -343,9 +343,86 @@ const ProviderRegister = (props) => {
 
     const ThirdPage = () => {
       return (
-          <div>
-              WORKS
-          </div>
+          <>
+              <Form.Group>
+                  <Form.Label>Oferowane usługi</Form.Label>
+                  <Form.Control
+                      id={'companyNameField'}
+                      placeholder="Nazwa firmy"
+                      value={enteredCompanyName}
+                      type={'select'}
+                      onChange={changeCompanyNameHandler}
+                  />
+                  {emptyCompanyName && errors.emptyField}
+              </Form.Group>
+              <Form.Group>
+                  <Form.Label>NIP</Form.Label>
+                  <Form.Control
+                      id={'NIPNumberField'}
+                      placeholder="NIP firmy"
+                      value={enteredNIPNumber}
+                      onChange={changeNIPNumberHandler}
+                      onBlur={validateNIPNumber}
+                  />
+                  {emptyNIPNumber && errors.emptyField}
+                  {(!validNIPNumber && !emptyNIPNumber) && errors.invalidNIPNumber}
+              </Form.Group>
+              <Form.Group className={`px-3 row`}>
+                  <div className="col-4 p-0">
+                      <Form.Label>Kod pocztowy</Form.Label>
+                      <Form.Control
+                          id={'postCodeField'}
+                          placeholder="Kod"
+                          value={enteredPostCode}
+                          onChange={changePostCodeHandler}
+                          onBlur={validatePostCode}
+                      />
+                      {emptyPostCode && errors.emptyField}
+                      {(!validPostCode && !emptyPostCode) && errors.invalidPostCode}
+                  </div>
+                  <div className={"col-8 pr-0"}>
+                      <div className="p-0">
+                          <Form.Label>Miejscowość</Form.Label>
+                          <Form.Control
+                              id={'cityField'}
+                              placeholder="Miejscowość"
+                              value={enteredCity}
+                              onChange={changeCityHandler}
+                          />
+                          {emptyCity && errors.emptyField}
+                      </div>
+                  </div>
+
+              </Form.Group>
+              <Form.Group>
+                  <Form.Label>Ulica i numer domu</Form.Label>
+                  <Form.Control
+                      id={'addressField'}
+                      placeholder="Ulica i numer domu"
+                      value={enteredAddress}
+                      onChange={changeAddressHandler}
+                  />
+                  {emptyAddress && errors.emptyField}
+              </Form.Group>
+              <Form.Group>
+                  <Form.Label>Numer telefonu</Form.Label>
+                  <Form.Control
+                      id={'phoneNumberField'}
+                      placeholder="Numer telefonu"
+                      value={enteredPhoneNumber}
+                      onChange={changePhoneNumberHandler}
+                  />
+                  {emptyPhoneNumber && errors.emptyField}
+              </Form.Group>
+              <div className={`d-flex justify-content-between`}>
+                  <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('first')}>
+                      Poprzedni
+                  </Button>
+                  <Button variant="primary" className={styles.btnPages} onClick={validateSecondPage}>
+                      Następny
+                  </Button>
+              </div>
+          </>
       )
     };
 
