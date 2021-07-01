@@ -412,10 +412,12 @@ const ProviderRegister = (props) => {
     const changeServiceHouseNumberHandler = (event) => {
         setServiceHouseNumber(event.target.value);
         setEmptyServiceHouseNumber(false);
+        setSameCredentials(false);
     };
 
     const changeServiceApartNumberHandler = (event) => {
         setServiceApartNumber(event.target.value);
+        setSameCredentials(false);
     };
 
     const validateServicePostCode = () => {
@@ -457,6 +459,8 @@ const ProviderRegister = (props) => {
         setServiceAddress(enteredStreet);
         setServiceCity(enteredCity);
         setServicePostCode(enteredPostCode);
+        setServiceHouseNumber(enteredHouseNumber);
+        setServiceApartNumber(enteredApartNumber);
     };
 
     const validateSelectedServices = () => {
@@ -478,190 +482,196 @@ const ProviderRegister = (props) => {
     };
 
     const ThirdPage = () => {
-            return (
-                <>
-                    <Form.Group>
-                        <Form.Label>
-                            Oferowane usługi
-                        </Form.Label>
-                        <DropdownButton variant={`secondary`} title={"Wybierz"} onBlur={validateSelectedServices}>
-                            {services.map((service) => {
-                                return (
-                                    <Dropdown key={service} className={`dropdown`}>
-                                        <label className={`px-2`}>
-                                            <Form.Check
-                                                type="checkbox"
-                                                value={servicesCodes[service]}
-                                                className={'mr-1 d-inline'}
-                                                onChange={chooseServiceHandler}
-                                                checked={chosenServices.some(serv => serv === String(servicesCodes[service]))}
-                                            />
-                                            {service}
-                                        </label>
-                                    </Dropdown>
-                                )
-                            })}
-                        </DropdownButton>
-                        {!selectedServices && errors.noServicesSelected}
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Miejsce oferowanych usług</Form.Label>
-                        <Form.Check
-                            type="checkbox"
-                            label={"Takie same jak firmy"}
-                            className={"ml-4"}
-                            onChange={fillAddressCredentials}
-                            checked={sameCredentials}
-                        />
-                        {emptyNIPNumber && errors.emptyField}
-                        {(!validNIPNumber && !emptyNIPNumber) && errors.invalidNIPNumber}
-                    </Form.Group>
-                    <Form.Group className={`px-3 row`}>
-                        <div className="col-4 p-0">
-                            <Form.Label>Kod pocztowy</Form.Label>
-                            <Form.Control
-                                id={'servicePostCodeField'}
-                                placeholder="Kod"
-                                value={servicePostCode}
-                                onChange={changeServicePostCodeHandler}
-                                onBlur={validateServicePostCode}
-                            />
-                            {emptyServicePostCode && errors.emptyField}
-                            {(!validServicePostCode && !emptyServicePostCode) && errors.invalidPostCode}
-                        </div>
-                        <div className={"col-8 pr-0"}>
-                            <div className="p-0">
-                                <Form.Label>Miejscowość</Form.Label>
-                                <Form.Control
-                                    id={'serviceCityField'}
-                                    placeholder="Miejscowość"
-                                    value={serviceCity}
-                                    onChange={changeServiceCityHandler}
-                                />
-                                {emptyServiceCity && errors.emptyField}
-                            </div>
-                        </div>
-
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Ulica</Form.Label>
+        return (
+            <>
+                <Form.Group>
+                    <Form.Label>
+                        Oferowane usługi
+                    </Form.Label>
+                    <DropdownButton variant={`secondary`} title={"Wybierz"} onBlur={validateSelectedServices}>
+                        {services.map((service) => {
+                            return (
+                                <Dropdown key={service} className={`dropdown`}>
+                                    <label className={`px-2`}>
+                                        <Form.Check
+                                            type="checkbox"
+                                            value={servicesCodes[service]}
+                                            className={'mr-1 d-inline'}
+                                            onChange={chooseServiceHandler}
+                                            checked={chosenServices.some(serv => serv === String(servicesCodes[service]))}
+                                        />
+                                        {service}
+                                    </label>
+                                </Dropdown>
+                            )
+                        })}
+                    </DropdownButton>
+                    {!selectedServices && errors.noServicesSelected}
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Miejsce oferowanych usług</Form.Label>
+                    <Form.Check
+                        type="checkbox"
+                        label={"Takie same jak firmy"}
+                        className={"ml-4"}
+                        onChange={fillAddressCredentials}
+                        checked={sameCredentials}
+                    />
+                    {emptyNIPNumber && errors.emptyField}
+                    {(!validNIPNumber && !emptyNIPNumber) && errors.invalidNIPNumber}
+                </Form.Group>
+                <Form.Group className={`px-3 row`}>
+                    <div className="col-4 p-0">
+                        <Form.Label>Kod pocztowy</Form.Label>
                         <Form.Control
-                            id={'serviceAddressField'}
-                            placeholder="Ulica"
-                            value={serviceStreetName}
-                            onChange={changeServiceStreetNameHandler}
+                            id={'servicePostCodeField'}
+                            placeholder="Kod"
+                            value={servicePostCode}
+                            onChange={changeServicePostCodeHandler}
+                            onBlur={validateServicePostCode}
                         />
-                        {emptyServiceStreetName && errors.emptyField}
-                    </Form.Group>
-                    <Form.Group className={`px-3 row`}>
-                        <div className="col-6 pl-0">
-                            <Form.Label>Numer domu</Form.Label>
-                            <Form.Control
-                                id={'houseServiceNumberField'}
-                                placeholder="Numer domu"
-                                value={serviceHouseNumber}
-                                onChange={changeServiceHouseNumberHandler}
-                            />
-                            {emptyServiceHouseNumber && errors.emptyField}
-                        </div>
-                        <div className={"col-6 pr-0"}>
-                            <div className="p-0">
-                                <Form.Label>Numer lokalu</Form.Label>
-                                <Form.Control
-                                    id={'apartServiceNumberField'}
-                                    placeholder="Numer lokalu"
-                                    value={serviceApartNumber}
-                                    onChange={changeServiceApartNumberHandler}
-                                />
-                            </div>
-                        </div>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Dodatkowe informacje do administracji strony (opcjonalnie)</Form.Label>
-                        <Form.Control
-                            as={'textarea'}
-                            id={'additionalInfoField'}
-                            value={additionalInfo}
-                            onChange={changeAdditionalInfoHandler}
-                        />
-                    </Form.Group>
-                    <div className={`d-flex justify-content-between pb-2`}>
-                        <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('second')}>
-                            Poprzedni
-                        </Button>
-                        <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
-                            Następny
-                        </Button>
+                        {emptyServicePostCode && errors.emptyField}
+                        {(!validServicePostCode && !emptyServicePostCode) && errors.invalidPostCode}
                     </div>
-                </>
-            )
-        };
+                    <div className={"col-8 pr-0"}>
+                        <div className="p-0">
+                            <Form.Label>Miejscowość</Form.Label>
+                            <Form.Control
+                                id={'serviceCityField'}
+                                placeholder="Miejscowość"
+                                value={serviceCity}
+                                onChange={changeServiceCityHandler}
+                            />
+                            {emptyServiceCity && errors.emptyField}
+                        </div>
+                    </div>
+
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Ulica</Form.Label>
+                    <Form.Control
+                        id={'serviceAddressField'}
+                        placeholder="Ulica"
+                        value={serviceStreetName}
+                        onChange={changeServiceStreetNameHandler}
+                    />
+                    {emptyServiceStreetName && errors.emptyField}
+                </Form.Group>
+                <Form.Group className={`px-3 row`}>
+                    <div className="col-6 pl-0">
+                        <Form.Label>Numer domu</Form.Label>
+                        <Form.Control
+                            id={'houseServiceNumberField'}
+                            placeholder="Numer domu"
+                            value={serviceHouseNumber}
+                            onChange={changeServiceHouseNumberHandler}
+                        />
+                        {emptyServiceHouseNumber && errors.emptyField}
+                    </div>
+                    <div className={"col-6 pr-0"}>
+                        <div className="p-0">
+                            <Form.Label>Numer lokalu</Form.Label>
+                            <Form.Control
+                                id={'apartServiceNumberField'}
+                                placeholder="Numer lokalu"
+                                value={serviceApartNumber}
+                                onChange={changeServiceApartNumberHandler}
+                            />
+                        </div>
+                    </div>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Dodatkowe informacje do administracji strony (opcjonalnie)</Form.Label>
+                    <Form.Control
+                        as={'textarea'}
+                        id={'additionalInfoField'}
+                        value={additionalInfo}
+                        onChange={changeAdditionalInfoHandler}
+                    />
+                </Form.Group>
+                <div className={`d-flex justify-content-between pb-2`}>
+                    <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('second')}>
+                        Poprzedni
+                    </Button>
+                    <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
+                        Następny
+                    </Button>
+                </div>
+            </>
+        )
+    };
 
     // ====================================
     //             CONFIRM PAGE
     // ====================================
 
     const ConfirmPage = () => {
-      return (
-          <>
-              <h2 className={'text-center border-bottom pt-0 pb-2'}>Twoje dane</h2>
-              <p className={`my-1`}><strong>Imię:</strong> {enteredFirstName}</p>
-              <p className={`my-1`}><strong>Nazwisko:</strong> {enteredLastName}</p>
-              <p className={`my-1`}><strong>Email:</strong> {enteredEmail}</p>
-              <p className={`my-1`}><strong>Numer telefonu:</strong> {enteredPhoneNumber}</p>
+        return (
+            <>
+                <h2 className={'text-center border-bottom pt-0 pb-2'}>Twoje dane</h2>
+                <p className={`my-1`}><strong>Imię:</strong> {enteredFirstName}</p>
+                <p className={`my-1`}><strong>Nazwisko:</strong> {enteredLastName}</p>
+                <p className={`my-1`}><strong>Email:</strong> {enteredEmail}</p>
+                <p className={`my-1`}><strong>Numer telefonu:</strong> {enteredPhoneNumber}</p>
 
-              <h2 className={'text-center border-bottom border-top py-2'}>Dane firmy</h2>
-              <p className={`my-1`}><strong>Nazwa firmy:</strong> {enteredCompanyName}</p>
-              <p className={`my-1`}><strong>NIP:</strong> {enteredNIPNumber}</p>
-              <p className={`my-1`}><strong>Kod pocztowy:</strong> {enteredPostCode}</p>
-              <p className={`my-1`}><strong>Miejscowość:</strong> {enteredCity}</p>
-              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {enteredStreet}</p>
+                <h2 className={'text-center border-bottom border-top py-2'}>Dane firmy</h2>
+                <p className={`my-1`}><strong>Nazwa firmy:</strong> {enteredCompanyName}</p>
+                <p className={`my-1`}><strong>NIP:</strong> {enteredNIPNumber}</p>
+                <p className={`my-1`}><strong>Kod pocztowy:</strong> {enteredPostCode}</p>
+                <p className={`my-1`}><strong>Miejscowość:</strong> {enteredCity}</p>
+                <p className={`my-1`}>
+                    <strong>Ulica i numer: </strong>
+                    {enteredStreet} {enteredHouseNumber} {enteredApartNumber.trim().length > 0 ? `/ ${enteredApartNumber}` : ''}
+                </p>
 
-              <h2 className={'text-center border-bottom border-top py-2'}>Usługi</h2>
-              <p className={`my-1`}><strong>Oferowane usługi:</strong> {chosenServices.map(service => {
-                  return (`${services[parseInt(service) - 1]}${chosenServices.indexOf(service) !== chosenServices.length - 1 ? ', ' : ''}`)
-              })}</p>
-              <p className={`my-1`}><strong>Miejsce oferowanych usług</strong></p>
-              <p className={`my-1`}><strong>Kod pocztowy:</strong> {servicePostCode}</p>
-              <p className={`my-1`}><strong>Miejscowość:</strong> {serviceCity}</p>
-              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {serviceStreetName}</p>
+                <h2 className={'text-center border-bottom border-top py-2'}>Usługi</h2>
+                <p className={`my-1`}><strong>Oferowane usługi:</strong> {chosenServices.map(service => {
+                    return (`${services[parseInt(service) - 1]}${chosenServices.indexOf(service) !== chosenServices.length - 1 ? ', ' : ''}`)
+                })}</p>
+                <p className={`my-1`}><strong>Miejsce oferowanych usług:</strong></p>
+                <p className={`my-1`}><strong>Kod pocztowy:</strong> {servicePostCode}</p>
+                <p className={`my-1`}><strong>Miejscowość:</strong> {serviceCity}</p>
+                <p className={`my-1`}>
+                    <strong>Ulica i numer: </strong>
+                    {serviceStreetName} {serviceHouseNumber} {serviceApartNumber.trim().length > 0 ? `/ ${serviceApartNumber}` : ''}
+                </p>
 
-              <h2 className={'text-center border-bottom border-top py-2'}>Twoja wiadomość</h2>
-              <p>{additionalInfo.trim().length > 0 ? additionalInfo : "Brak wiadomości"}</p>
+                <h2 className={'text-center border-bottom border-top py-2'}>Twoja wiadomość</h2>
+                <p>{additionalInfo.trim().length > 0 ? additionalInfo : "Brak wiadomości"}</p>
 
-              <div className={`d-flex justify-content-between pb-2`}>
-                  <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('third')}>
-                      Wróć
-                  </Button>
-                  <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
-                      Zarejestruj
-                  </Button>
-              </div>
-          </>
-      )
+                <div className={`d-flex justify-content-between pb-2`}>
+                    <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('third')}>
+                        Wróć
+                    </Button>
+                    <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
+                        Zarejestruj
+                    </Button>
+                </div>
+            </>
+        )
     };
 
-    const page =
-        {
-            "first": FirstPage,
-            "second": SecondPage,
-            "third": ThirdPage,
-            'confirm': ConfirmPage
-        };
+const page =
+    {
+        "first": FirstPage,
+        "second": SecondPage,
+        "third": ThirdPage,
+        'confirm': ConfirmPage
+    };
 
-    return (
-        <div className={`${styles.wrapper}`}>
-            <div className={`text-right pr-3 mb-0 pb-0`}>
-                <FontAwesomeIcon icon={faTimes} onClick={props.closeForm}/>
-            </div>
-            <header className={`text-center pb-2 mt-0 ${styles.header}`}>
-                <h4>Rejestracja dla usługodawców</h4>
-            </header>
-            <Form className={`px-2 pt-3`}>
-                {page[pageVisible]()}
-            </Form>
+return (
+    <div className={`${styles.wrapper}`}>
+        <div className={`text-right pr-3 mb-0 pb-0`}>
+            <FontAwesomeIcon icon={faTimes} onClick={props.closeForm}/>
         </div>
-    )
+        <header className={`text-center pb-2 mt-0 ${styles.header}`}>
+            <h4>Rejestracja dla usługodawców</h4>
+        </header>
+        <Form className={`px-2 pt-3`}>
+            {page[pageVisible]()}
+        </Form>
+    </div>
+)
 };
 
 export default ProviderRegister;
