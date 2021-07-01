@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
 
 import styles from "./BaseRegister.module.css";
+import RegisterConfirmation from "./RegisterConfirmation";
 
 const BaseRegister = () => {
 
@@ -10,6 +11,7 @@ const BaseRegister = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [matchingPasswords, setMatchingPasswords] = useState(true);
+    const [showRegisterForm, setShowRegisterForm] = useState(true);
 
     const [enteredFirstName, setEnteredFirstName] = useState('');
     const [enteredLastName, setEnteredLastName] = useState('');
@@ -88,87 +90,91 @@ const BaseRegister = () => {
             setPasswordFieldEmpty(enteredPassword === '');
             setPasswordConfEmpty(enteredPasswordConfirm === '');
         } else {
-
+            setShowRegisterForm(false);
         }
     };
 
 
-
     return (
-        <Form className={`${styles.registerForm}`}>
-            <Form.Group className={`my-0`}>
-                <Form.Label>Imię</Form.Label>
-                <Form.Control
-                    id={'firstNameField'}
-                    type="email"
-                    placeholder="Twoje imię"
-                    onChange={changeFirstNameFieldHandler}
-                    value={enteredFirstName}
-                />
-                {firstNameEmpty && errors.emptyField}
-            </Form.Group>
-            <Form.Group className={`my-0`}>
-                <Form.Label>Nazwisko</Form.Label>
-                <Form.Control
-                    id={'lastNameField'}
-                    type="email"
-                    placeholder="Twoje nazwisko"
-                    onChange={changeLastNameFieldHandler}
-                    value={enteredLastName}
-                />
-                {lastNameEmpty && errors.emptyField}
-            </Form.Group>
-            <Form.Group className={`my-0`}>
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                    id={'emailField'}
-                    type="email"
-                    placeholder="Wprowadź email"
-                    onChange={changeEmailFieldHandler}
-                    onBlur={validateEmail}
-                    value={enteredEmail}
-                />
-                {emailEmpty && errors.emptyField}
-                {(!validEmail && !emailEmpty) && errors.invalidEmail}
-            </Form.Group>
-            <Form.Group className={`my-0`}>
-                <Form.Label>Hasło</Form.Label>
-                <Form.Control
-                    id={'passwordField'}
-                    type="password"
-                    placeholder="Hasło"
-                    onBlur={validatePassword}
-                    onChange={changePasswordFieldHandler}
-                    value={enteredPassword}
-                />
-                {passwordFieldEmpty && errors.emptyField}
-                {(!validPassword && !passwordFieldEmpty) && errors.unsecurePassword}
-            </Form.Group>
-            <Form.Group className={`my-0`}>
-                <Form.Label>Powtórz hasło</Form.Label>
-                <Form.Control
-                    id={'confirmPasswordField'}
-                    type="password"
-                    placeholder="Powtórz hasło"
-                    onBlur={validateConfirmPassword}
-                    onChange={changePasswordConfirmFieldHandler}
-                    value={enteredPasswordConfirm}
-                />
-                {passwordConfEmpty && errors.emptyField}
-                {(!matchingPasswords && !passwordConfEmpty) && errors.differentPasswords}
-            </Form.Group>
-            <div className={`mb-1`}>
-                <small>
-                    Chcesz zaoferować swoje usługi? Skorzystaj z
-                    <span className={styles.actLink}> rejestracji dla usługodawców.</span>
-                </small>
-            </div>
+        <>
+            {showRegisterForm ?
+                <Form className={`${styles.registerForm}`}>
+                    <Form.Group className={`my-0`}>
+                        <Form.Label>Imię</Form.Label>
+                        <Form.Control
+                            id={'firstNameField'}
+                            type="email"
+                            placeholder="Twoje imię"
+                            onChange={changeFirstNameFieldHandler}
+                            value={enteredFirstName}
+                        />
+                        {firstNameEmpty && errors.emptyField}
+                    </Form.Group>
+                    <Form.Group className={`my-0`}>
+                        <Form.Label>Nazwisko</Form.Label>
+                        <Form.Control
+                            id={'lastNameField'}
+                            type="email"
+                            placeholder="Twoje nazwisko"
+                            onChange={changeLastNameFieldHandler}
+                            value={enteredLastName}
+                        />
+                        {lastNameEmpty && errors.emptyField}
+                    </Form.Group>
+                    <Form.Group className={`my-0`}>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            id={'emailField'}
+                            type="email"
+                            placeholder="Wprowadź email"
+                            onChange={changeEmailFieldHandler}
+                            onBlur={validateEmail}
+                            value={enteredEmail}
+                        />
+                        {emailEmpty && errors.emptyField}
+                        {(!validEmail && !emailEmpty) && errors.invalidEmail}
+                    </Form.Group>
+                    <Form.Group className={`my-0`}>
+                        <Form.Label>Hasło</Form.Label>
+                        <Form.Control
+                            id={'passwordField'}
+                            type="password"
+                            placeholder="Hasło"
+                            onBlur={validatePassword}
+                            onChange={changePasswordFieldHandler}
+                            value={enteredPassword}
+                        />
+                        {passwordFieldEmpty && errors.emptyField}
+                        {(!validPassword && !passwordFieldEmpty) && errors.unsecurePassword}
+                    </Form.Group>
+                    <Form.Group className={`my-0`}>
+                        <Form.Label>Powtórz hasło</Form.Label>
+                        <Form.Control
+                            id={'confirmPasswordField'}
+                            type="password"
+                            placeholder="Powtórz hasło"
+                            onBlur={validateConfirmPassword}
+                            onChange={changePasswordConfirmFieldHandler}
+                            value={enteredPasswordConfirm}
+                        />
+                        {passwordConfEmpty && errors.emptyField}
+                        {(!matchingPasswords && !passwordConfEmpty) && errors.differentPasswords}
+                    </Form.Group>
+                    <div className={`mb-1`}>
+                        <small>
+                            Chcesz zaoferować swoje usługi? Skorzystaj z
+                            <span className={styles.actLink}> rejestracji dla usługodawców.</span>
+                        </small>
+                    </div>
 
-            <Button variant="primary" type="submit" onClick={registerHandler}>
-                Zarejestruj
-            </Button>
-        </Form>
+                    <Button variant="primary" type="submit" onClick={registerHandler}>
+                        Zarejestruj
+                    </Button>
+                </Form> :
+                <RegisterConfirmation/>
+            }
+        </>
     )
-};
+}
 
 export default BaseRegister;
