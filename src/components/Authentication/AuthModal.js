@@ -5,6 +5,8 @@ import styles from './AuthModal.module.css';
 import Card from "../UI/Card";
 import Login from "./Login";
 import BaseRegister from "./BaseRegister";
+import ProviderRegister from "./ProviderRegister";
+
 
 const Backdrop = props => {
     return (
@@ -14,7 +16,7 @@ const Backdrop = props => {
     )
 }
 
-const ModalOverlay = () => {
+const ModalOverlay = (props) => {
 
     const [visibleForm, setVisibleForm] = useState('login');
     const [showProviderRegistration, setShowProviderRegistration] = useState(false);
@@ -29,6 +31,7 @@ const ModalOverlay = () => {
 
     const changeProviderRegistrationFormVisibility = () => {
         setShowProviderRegistration(!showProviderRegistration);
+        props.changeBackdropVisibility();
     }
 
     return (
@@ -46,26 +49,33 @@ const ModalOverlay = () => {
                     visibleForm === 'login' && <Login/>
                 }
                 {
-                    visibleForm === 'register' && <BaseRegister providerRegisterHandler={changeProviderRegistrationFormVisibility}/>
+                    visibleForm === 'register' &&
+                    <BaseRegister providerRegisterHandler={changeProviderRegistrationFormVisibility}/>
                 }
             </Card> :
-            <h2>PROVIDER REGISTER</h2>
+            <ProviderRegister closeForm={changeProviderRegistrationFormVisibility}/>
         }
         </>
 
     )
-};
+}
 
 const AuthModal = (props) => {
+    const [showBackdrop, setShowBackdrop] = useState(true);
+
+    const changeBackdropVisibility = () => {
+        setShowBackdrop(!showBackdrop);
+    };
+
     return (
         <React.Fragment>
-            {ReactDOM.createPortal(
+            {showBackdrop && ReactDOM.createPortal(
                 <Backdrop
                     onClick={props.changeVisibility}/>,
                 document.getElementById('backdrop-root'))}
 
             {ReactDOM.createPortal(
-                <ModalOverlay>
+                <ModalOverlay changeBackdropVisibility={changeBackdropVisibility}>
                     {props.children}
                 </ModalOverlay>,
                 document.getElementById('overlay-root'))}
