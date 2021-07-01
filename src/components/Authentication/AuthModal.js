@@ -49,11 +49,14 @@ const ModalOverlay = (props) => {
                     visibleForm === 'login' && <Login/>
                 }
                 {
-                    visibleForm === 'register' &&
-                    <BaseRegister providerRegisterHandler={changeProviderRegistrationFormVisibility}/>
+                    visibleForm === 'register' && <BaseRegister providerRegisterHandler={changeProviderRegistrationFormVisibility}/>
                 }
             </Card> :
-            <ProviderRegister closeForm={changeProviderRegistrationFormVisibility}/>
+
+                ReactDOM.createPortal(<ProviderRegister closeForm={changeProviderRegistrationFormVisibility}/>,
+                    document.getElementById('overlay-root'))
+
+
         }
         </>
 
@@ -61,6 +64,7 @@ const ModalOverlay = (props) => {
 }
 
 const AuthModal = (props) => {
+
     const [showBackdrop, setShowBackdrop] = useState(true);
 
     const changeBackdropVisibility = () => {
@@ -69,9 +73,9 @@ const AuthModal = (props) => {
 
     return (
         <React.Fragment>
-            {showBackdrop && ReactDOM.createPortal(
+            { showBackdrop && ReactDOM.createPortal(
                 <Backdrop
-                    onClick={props.changeVisibility}/>,
+                    onClick={props.changeVisibility} />,
                 document.getElementById('backdrop-root'))}
 
             {ReactDOM.createPortal(

@@ -103,7 +103,6 @@ const BaseRegister = (props) => {
                         <Form.Label>Imię</Form.Label>
                         <Form.Control
                             id={'firstNameField'}
-                            type="email"
                             placeholder="Twoje imię"
                             onChange={changeFirstNameFieldHandler}
                             value={enteredFirstName}
@@ -114,7 +113,6 @@ const BaseRegister = (props) => {
                         <Form.Label>Nazwisko</Form.Label>
                         <Form.Control
                             id={'lastNameField'}
-                            type="email"
                             placeholder="Twoje nazwisko"
                             onChange={changeLastNameFieldHandler}
                             value={enteredLastName}

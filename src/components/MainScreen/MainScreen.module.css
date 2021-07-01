@@ -6,6 +6,12 @@
     height: 20vh;
 }
 
+.wrapper {
+    width: 100vw;
+    position: fixed;
+    z-index: -1;
+}
+
 .mainContainer {
     background-image: url('bg.jpg');
     background-repeat: no-repeat;
