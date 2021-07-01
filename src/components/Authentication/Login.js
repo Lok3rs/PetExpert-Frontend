@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 
-import {Button, Form, OverlayTrigger} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 import styles from './Login.module.css';
-import InfoPopover from "../UI/InfoPopover";
 
 
 const Login = () => {
@@ -15,46 +14,70 @@ const Login = () => {
             hasło</div>
     }
 
+    const [enteredEmail, setEnteredEmail] = useState('');
+    const [enteredPassword, setEnteredPassword] = useState('');
+
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
-    const [loginAllowed, setLoginAllowed] = useState(false);
     const [invalidCredentials, setInvalidCredentials] = useState(false);
 
-    const validateEmail = (event) => {
+    const emailChangeHandler = event => {
+        setEnteredEmail(event.target.value);
+    };
+
+    const validateEmail = () => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        setValidEmail(re.test(String(event.target.value).toLowerCase()));
-        allowLoginHandler();
+        setValidEmail(re.test(String(enteredEmail).toLowerCase()));
     };
 
-    const validatePassword = (event) => {
-        setValidPassword(event.target.value.length >= 8);
-        allowLoginHandler();
-    };
-
-    const allowLoginHandler = () => {
-        const passwordField = document.getElementById('passwordField');
-        const emailField = document.getElementById('emailField');
-
+    const passwordChangeHandler = (event) => {
+        setEnteredPassword(event.target.value);
     }
+
+    const validatePassword = () => {
+        setValidPassword(enteredPassword.length >= 8);
+    };
+
+    const validateForm = () => {
+        validateEmail();
+        validatePassword();
+    };
 
     const loginHandler = (event) => {
         event.preventDefault();
+        validateForm();
+        if (validEmail && validPassword) {
+            // TODO: fetch login API and check validity of credentials
+            setInvalidCredentials(true);
+        }
 
-        // TODO: fetch login API and check validity of credentials
-        setInvalidCredentials(true);
     }
 
     return (
-        <Form className={`${styles.loginForm}`} onChange={allowLoginHandler}>
+        <Form className={`${styles.loginForm}`}>
             {invalidCredentials && errors.invalidCredentials}
             <Form.Group>
                 <Form.Label>Email</Form.Label>
-                <Form.Control id={'emailField'} type="email" placeholder="Wprowadź email" onChange={validateEmail}/>
+                <Form.Control
+                    id={'emailField'}
+                    type="email"
+                    placeholder="Wprowadź email"
+                    onBlur={validateEmail}
+                    onChange={emailChangeHandler}
+                    value={enteredEmail}
+                />
                 {!validEmail && errors.invalidEmail}
             </Form.Group>
             <Form.Group>
                 <Form.Label>Hasło</Form.Label>
-                <Form.Control id={'passwordField'} type="password" placeholder="Hasło" onChange={validatePassword}/>
+                <Form.Control
+                    id={'passwordField'}
+                    type="password"
+                    placeholder="Hasło"
+                    onBlur={validatePassword}
+                    onChange={passwordChangeHandler}
+                    value={enteredPassword}
+                />
                 {!validPassword && errors.tooShortPassword}
             </Form.Group>
             <Form.Group>

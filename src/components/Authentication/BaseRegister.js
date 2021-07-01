@@ -55,11 +55,11 @@ const BaseRegister = () => {
         <Form className={`${styles.registerForm}`} onChange={allowRegisterHandler}>
             <Form.Group>
                 <Form.Label>Imię</Form.Label>
-                <Form.Control required id={'emailField'} type="email" placeholder="Twoje imię"/>
+                <Form.Control required id={'firstNameField'} type="email" placeholder="Twoje imię"/>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Nazwisko</Form.Label>
-                <Form.Control required id={'emailField'} type="email" placeholder="Twoje nazwisko"/>
+                <Form.Control required id={'lastNameField'} type="email" placeholder="Twoje nazwisko"/>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Email</Form.Label>
