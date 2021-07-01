@@ -17,6 +17,7 @@ const Backdrop = props => {
 const ModalOverlay = () => {
 
     const [visibleForm, setVisibleForm] = useState('login');
+    const [showProviderRegistration, setShowProviderRegistration] = useState(false);
 
     const showLoginHandler = () => {
         setVisibleForm('login');
@@ -26,23 +27,32 @@ const ModalOverlay = () => {
         setVisibleForm('register');
     }
 
+    const changeProviderRegistrationFormVisibility = () => {
+        setShowProviderRegistration(!showProviderRegistration);
+    }
+
     return (
-        <Card className={`${styles.modal} ${visibleForm === 'register' ? styles.modalRegister : undefined}`}>
-            <header className={styles.header}>
-                <button className={visibleForm === 'login' ? styles.active : undefined}
-                        onClick={showLoginHandler}>Logowanie
-                </button>
-                <button className={visibleForm === 'register' ? styles.active : undefined}
-                        onClick={showRegisterHandler}>Rejestracja
-                </button>
-            </header>
-            {
-                visibleForm === 'login' && <Login/>
-            }
-            {
-                visibleForm === 'register' && <BaseRegister/>
-            }
-        </Card>
+        <> {!showProviderRegistration ?
+            <Card className={`${styles.modal} ${visibleForm === 'register' ? styles.modalRegister : undefined}`}>
+                <header className={styles.header}>
+                    <button className={visibleForm === 'login' ? styles.active : undefined}
+                            onClick={showLoginHandler}>Logowanie
+                    </button>
+                    <button className={visibleForm === 'register' ? styles.active : undefined}
+                            onClick={showRegisterHandler}>Rejestracja
+                    </button>
+                </header>
+                {
+                    visibleForm === 'login' && <Login/>
+                }
+                {
+                    visibleForm === 'register' && <BaseRegister providerRegisterHandler={changeProviderRegistrationFormVisibility}/>
+                }
+            </Card> :
+            <h2>PROVIDER REGISTER</h2>
+        }
+        </>
+
     )
 };
 

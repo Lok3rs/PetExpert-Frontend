@@ -5,7 +5,7 @@ import {Button, Form} from "react-bootstrap";
 import styles from "./BaseRegister.module.css";
 import RegisterConfirmation from "./RegisterConfirmation";
 
-const BaseRegister = () => {
+const BaseRegister = (props) => {
 
 
     const [validEmail, setValidEmail] = useState(true);
@@ -163,7 +163,7 @@ const BaseRegister = () => {
                     <div className={`mb-1`}>
                         <small>
                             Chcesz zaoferować swoje usługi? Skorzystaj z
-                            <span className={styles.actLink}> rejestracji dla usługodawców.</span>
+                            <span className={styles.actLink} onClick={props.providerRegisterHandler}> rejestracji dla usługodawców.</span>
                         </small>
                     </div>
 
@@ -171,7 +171,7 @@ const BaseRegister = () => {
                         Zarejestruj
                     </Button>
                 </Form> :
-                <RegisterConfirmation/>
+                <RegisterConfirmation />
             }
         </>
     )
