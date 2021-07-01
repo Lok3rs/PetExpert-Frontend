@@ -94,12 +94,12 @@ const ProviderRegister = (props) => {
         validatePassword();
         validateConfirmPassword();
         if ([enteredFirstName, enteredLastName, enteredEmail, enteredEmail, enteredPassword, enteredPasswordConf]
-            .some(el => el.length === 0)) {
-            setEmptyFirstName(enteredFirstName.length === 0);
-            setEmptyLastName(enteredLastName.length === 0);
-            setEmptyEmail(enteredEmail.length === 0);
-            setEmptyPassword(enteredPassword.length === 0);
-            setEmptyPasswordConf(enteredPasswordConf.length === 0);
+            .some(el => el.trim().length === 0)) {
+            setEmptyFirstName(enteredFirstName.trim().length === 0);
+            setEmptyLastName(enteredLastName.trim().length === 0);
+            setEmptyEmail(enteredEmail.trim().length === 0);
+            setEmptyPassword(enteredPassword.trim().length === 0);
+            setEmptyPasswordConf(enteredPasswordConf.trim().length === 0);
         } else if (validPassword && validEmail && matchingPasswords) {
             setPageVisible('second');
         }
