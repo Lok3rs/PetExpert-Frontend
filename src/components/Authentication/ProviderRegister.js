@@ -30,7 +30,7 @@ const ProviderRegister = (props) => {
             <small className={styles.invalid}>Musisz wybrać przynajmniej jedno pole.</small>
     }
 
-    const [pageVisible, setPageVisible] = useState("confirm");
+    const [pageVisible, setPageVisible] = useState("third");
 
     // ====================================
     //             FIRST PAGE
@@ -189,15 +189,18 @@ const ProviderRegister = (props) => {
     const [emptyNIPNumber, setEmptyNIPNumber] = useState(false);
     const [emptyPostCode, setEmptyPostCode] = useState(false);
     const [emptyCity, setEmptyCity] = useState(false);
-    const [emptyAddress, setEmptyAddress] = useState(false);
+    const [emptyStreet, setEmptyAddress] = useState(false);
     const [emptyPhoneNumber, setEmptyPhoneNumber] = useState(false);
+    const [emptyHouseNumber, setEmptyHouseNumber] = useState(false);
 
     const [enteredCompanyName, setEnteredCompanyName] = useState('');
     const [enteredNIPNumber, setEnteredNIPNumber] = useState('');
     const [enteredPostCode, setEnteredPostCode] = useState('');
     const [enteredCity, setEnteredCity] = useState('');
-    const [enteredAddress, setEnteredAddress] = useState('');
+    const [enteredStreet, setEnteredAddress] = useState('');
     const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
+    const [enteredHouseNumber, setEnteredHouseNumber] = useState('');
+    const [enteredApartNumber, setEnteredApartNumber] = useState('');
 
     const changeCompanyNameHandler = (event) => {
         setEnteredCompanyName(event.target.value);
@@ -209,9 +212,18 @@ const ProviderRegister = (props) => {
         setEmptyNIPNumber(false);
     };
 
+    const changeApartNumberHandler = (event) => {
+        setEnteredApartNumber(event.target.value);
+    };
+
     const changePostCodeHandler = (event) => {
         setEnteredPostCode(event.target.value);
         setEmptyPostCode(false);
+    };
+
+    const changeHouseNumberHandler = (event) => {
+        setEnteredHouseNumber(event.target.value);
+        setEmptyHouseNumber(false);
     };
 
     const changeCityHandler = (event) => {
@@ -219,7 +231,7 @@ const ProviderRegister = (props) => {
         setEmptyCity(false);
     };
 
-    const changeAddressHandler = (event) => {
+    const changeStreetHandler = (event) => {
         setEnteredAddress(event.target.value);
         setEmptyAddress(false);
     };
@@ -240,16 +252,17 @@ const ProviderRegister = (props) => {
     };
 
     const validateSecondPage = () => {
-        const fields = [enteredCompanyName, enteredNIPNumber, enteredPostCode, enteredCity, enteredAddress, enteredPhoneNumber]
+        const fields = [enteredCompanyName, enteredHouseNumber, enteredNIPNumber, enteredPostCode, enteredCity, enteredStreet, enteredPhoneNumber]
         validatePostCode();
         validateNIPNumber();
         if (fields.some(field => field.trim().length === 0)) {
             setEmptyCompanyName(enteredCompanyName.trim() === '');
             setEmptyNIPNumber(enteredNIPNumber.trim() === '');
             setEmptyCity(enteredCity.trim() === '');
-            setEmptyAddress(enteredAddress.trim() === '');
+            setEmptyAddress(enteredStreet.trim() === '');
             setEmptyPostCode(enteredPostCode.trim() === '');
             setEmptyPhoneNumber(enteredPhoneNumber.trim() === '');
+            setEmptyHouseNumber(enteredHouseNumber.trim() === '');
         } else if (validPostCode && validNIPNumber) {
             setPageVisible("third");
         }
@@ -305,17 +318,39 @@ const ProviderRegister = (props) => {
                             {emptyCity && errors.emptyField}
                         </div>
                     </div>
-
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Ulica i numer domu</Form.Label>
+                    <Form.Label>Ulica</Form.Label>
                     <Form.Control
                         id={'addressField'}
-                        placeholder="Ulica i numer domu"
-                        value={enteredAddress}
-                        onChange={changeAddressHandler}
+                        placeholder="Nazwa ulicy"
+                        value={enteredStreet}
+                        onChange={changeStreetHandler}
                     />
-                    {emptyAddress && errors.emptyField}
+                    {emptyStreet && errors.emptyField}
+                </Form.Group>
+                <Form.Group className={`px-3 row`}>
+                    <div className="col-6 pl-0">
+                        <Form.Label>Numer domu</Form.Label>
+                        <Form.Control
+                            id={'houseNumberField'}
+                            placeholder="Numer domu"
+                            value={enteredHouseNumber}
+                            onChange={changeHouseNumberHandler}
+                        />
+                        {emptyHouseNumber && errors.emptyField}
+                    </div>
+                    <div className={"col-6 pr-0"}>
+                        <div className="p-0">
+                            <Form.Label>Numer lokalu</Form.Label>
+                            <Form.Control
+                                id={'apartNumberField'}
+                                placeholder="Numer lokalu"
+                                value={enteredApartNumber}
+                                onChange={changeApartNumberHandler}
+                            />
+                        </div>
+                    </div>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Numer telefonu</Form.Label>
@@ -357,18 +392,30 @@ const ProviderRegister = (props) => {
     const [selectedServices, setSelectedServices] = useState(true);
     const [emptyServicePostCode, setEmptyServicePostCode] = useState(false);
     const [emptyServiceCity, setEmptyServiceCity] = useState(false);
-    const [emptyServiceAddress, setEmptyServiceAddress] = useState(false);
+    const [emptyServiceStreetName, setEmptyServiceStreetName] = useState(false);
+    const [emptyServiceHouseNumber, setEmptyServiceHouseNumber] = useState(false);
 
     const [chosenServices, setChosenServices] = useState([]);
     const [servicePostCode, setServicePostCode] = useState('');
     const [serviceCity, setServiceCity] = useState('');
-    const [serviceAddress, setServiceAddress] = useState('');
+    const [serviceStreetName, setServiceAddress] = useState('');
     const [additionalInfo, setAdditionalInfo] = useState('');
     const [sameCredentials, setSameCredentials] = useState(false);
+    const [serviceHouseNumber, setServiceHouseNumber] = useState('');
+    const [serviceApartNumber, setServiceApartNumber] = useState('');
 
     const changeServicePostCodeHandler = (event) => {
         setServicePostCode(event.target.value);
         setEmptyServicePostCode(false);
+    };
+
+    const changeServiceHouseNumberHandler = (event) => {
+        setServiceHouseNumber(event.target.value);
+        setEmptyServiceHouseNumber(false);
+    };
+
+    const changeServiceApartNumberHandler = (event) => {
+        setServiceApartNumber(event.target.value);
     };
 
     const validateServicePostCode = () => {
@@ -384,9 +431,9 @@ const ProviderRegister = (props) => {
         setSameCredentials(false);
     };
 
-    const changeServiceAddressHandler = (event) => {
+    const changeServiceStreetNameHandler = (event) => {
         setServiceAddress(event.target.value);
-        setEmptyServiceAddress(false);
+        setEmptyServiceStreetName(false);
         setSameCredentials(false);
     };
 
@@ -407,7 +454,7 @@ const ProviderRegister = (props) => {
 
     const fillAddressCredentials = (event) => {
         setSameCredentials(event.target.checked);
-        setServiceAddress(enteredAddress);
+        setServiceAddress(enteredStreet);
         setServiceCity(enteredCity);
         setServicePostCode(enteredPostCode);
     };
@@ -418,12 +465,13 @@ const ProviderRegister = (props) => {
 
     const validateThirdPage = () => {
         validateSelectedServices();
-        const fields = [servicePostCode, serviceCity, serviceAddress]
+        const fields = [servicePostCode, serviceCity, serviceStreetName, serviceHouseNumber]
 
         if (fields.some(field => field.trim().length === 0)) {
             setEmptyServicePostCode(servicePostCode.trim() === '');
             setEmptyServiceCity(serviceCity.trim() === '');
-            setEmptyServiceAddress(serviceAddress.trim() === '');
+            setEmptyServiceStreetName(serviceStreetName.trim() === '');
+            setEmptyServiceHouseNumber(serviceHouseNumber.trim() === '');
         } else {
             setPageVisible('confirm')
         }
@@ -496,14 +544,37 @@ const ProviderRegister = (props) => {
 
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Ulica i numer domu</Form.Label>
+                        <Form.Label>Ulica</Form.Label>
                         <Form.Control
                             id={'serviceAddressField'}
-                            placeholder="Ulica i numer domu"
-                            value={serviceAddress}
-                            onChange={changeServiceAddressHandler}
+                            placeholder="Ulica"
+                            value={serviceStreetName}
+                            onChange={changeServiceStreetNameHandler}
                         />
-                        {emptyServiceAddress && errors.emptyField}
+                        {emptyServiceStreetName && errors.emptyField}
+                    </Form.Group>
+                    <Form.Group className={`px-3 row`}>
+                        <div className="col-6 pl-0">
+                            <Form.Label>Numer domu</Form.Label>
+                            <Form.Control
+                                id={'houseServiceNumberField'}
+                                placeholder="Numer domu"
+                                value={serviceHouseNumber}
+                                onChange={changeServiceHouseNumberHandler}
+                            />
+                            {emptyServiceHouseNumber && errors.emptyField}
+                        </div>
+                        <div className={"col-6 pr-0"}>
+                            <div className="p-0">
+                                <Form.Label>Numer lokalu</Form.Label>
+                                <Form.Control
+                                    id={'apartServiceNumberField'}
+                                    placeholder="Numer lokalu"
+                                    value={serviceApartNumber}
+                                    onChange={changeServiceApartNumberHandler}
+                                />
+                            </div>
+                        </div>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Dodatkowe informacje do administracji strony (opcjonalnie)</Form.Label>
@@ -544,7 +615,7 @@ const ProviderRegister = (props) => {
               <p className={`my-1`}><strong>NIP:</strong> {enteredNIPNumber}</p>
               <p className={`my-1`}><strong>Kod pocztowy:</strong> {enteredPostCode}</p>
               <p className={`my-1`}><strong>Miejscowość:</strong> {enteredCity}</p>
-              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {enteredAddress}</p>
+              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {enteredStreet}</p>
 
               <h2 className={'text-center border-bottom border-top py-2'}>Usługi</h2>
               <p className={`my-1`}><strong>Oferowane usługi:</strong> {chosenServices.map(service => {
@@ -553,7 +624,7 @@ const ProviderRegister = (props) => {
               <p className={`my-1`}><strong>Miejsce oferowanych usług</strong></p>
               <p className={`my-1`}><strong>Kod pocztowy:</strong> {servicePostCode}</p>
               <p className={`my-1`}><strong>Miejscowość:</strong> {serviceCity}</p>
-              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {serviceAddress}</p>
+              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {serviceStreetName}</p>
 
               <h2 className={'text-center border-bottom border-top py-2'}>Twoja wiadomość</h2>
               <p>{additionalInfo.trim().length > 0 ? additionalInfo : "Brak wiadomości"}</p>
