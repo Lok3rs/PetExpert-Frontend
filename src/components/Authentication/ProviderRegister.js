@@ -30,7 +30,7 @@ const ProviderRegister = (props) => {
             <small className={styles.invalid}>Musisz wybrać przynajmniej jedno pole.</small>
     }
 
-    const [pageVisible, setPageVisible] = useState("third");
+    const [pageVisible, setPageVisible] = useState("confirm");
 
     // ====================================
     //             FIRST PAGE
@@ -531,9 +531,46 @@ const ProviderRegister = (props) => {
             )
         };
 
+    // ====================================
+    //             CONFIRM PAGE
+    // ====================================
+
     const ConfirmPage = () => {
       return (
           <>
+              <h2 className={'text-center border-bottom pt-0 pb-2'}>Twoje dane</h2>
+              <p className={`my-1`}><strong>Imię:</strong> {enteredFirstName}</p>
+              <p className={`my-1`}><strong>Nazwisko:</strong> {enteredLastName}</p>
+              <p className={`my-1`}><strong>Email:</strong> {enteredEmail}</p>
+              <p className={`my-1`}><strong>Numer telefonu:</strong> {enteredPhoneNumber}</p>
+
+              <h2 className={'text-center border-bottom border-top py-2'}>Dane firmy</h2>
+              <p className={`my-1`}><strong>Nazwa firmy:</strong> {enteredCompanyName}</p>
+              <p className={`my-1`}><strong>NIP:</strong> {enteredNIPNumber}</p>
+              <p className={`my-1`}><strong>Kod pocztowy:</strong> {enteredPostCode}</p>
+              <p className={`my-1`}><strong>Miejscowość:</strong> {enteredCity}</p>
+              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {enteredAddress}</p>
+
+              <h2 className={'text-center border-bottom border-top py-2'}>Usługi</h2>
+              <p className={`my-1`}><strong>Oferowane usługi:</strong> {chosenServices.map(service => {
+                  return (`${services[parseInt(service) - 1]}${chosenServices.indexOf(service) !== chosenServices.length - 1 ? ', ' : ''}`)
+              })}</p>
+              <p className={`my-1`}><strong>Miejsce oferowanych usług</strong></p>
+              <p className={`my-1`}><strong>Kod pocztowy:</strong> {servicePostCode}</p>
+              <p className={`my-1`}><strong>Miejscowość:</strong> {serviceCity}</p>
+              <p className={`my-1`}><strong>Ulica i numer domu:</strong> {serviceAddress}</p>
+
+              <h2 className={'text-center border-bottom border-top py-2'}>Twoja wiadomość</h2>
+              <p>{additionalInfo.trim().length > 0 ? additionalInfo : "Brak wiadomości"}</p>
+
+              <div className={`d-flex justify-content-between pb-2`}>
+                  <Button variant="primary" className={styles.btnPages} onClick={() => setPageVisible('third')}>
+                      Wróć
+                  </Button>
+                  <Button variant="primary" className={styles.btnPages} onClick={validateThirdPage}>
+                      Zarejestruj
+                  </Button>
+              </div>
           </>
       )
     };
