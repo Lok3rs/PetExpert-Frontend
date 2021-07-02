@@ -8,6 +8,7 @@ import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Button, Form, Dropdown, DropdownButton} from "react-bootstrap";
 import AuthConfirmation from "./AuthConfirmation";
 
+
 const ProviderRegister = (props) => {
 
     const errors = {
@@ -607,6 +608,13 @@ const ProviderRegister = (props) => {
     // ====================================
 
     const registerHandler = () => {
+        const servicesAsBooleans = {
+            behaviorist: chosenServices.some(serv => serv === "1"),
+            hotel: chosenServices.some(serv => serv === "2"),
+            groomer: chosenServices.some(serv => serv === "3"),
+            vet: chosenServices.some(serv => serv === "4")
+        };
+        console.log(servicesAsBooleans);
         // TODO: Fetch and check if response is OK!
         setPageVisible('registered');
     }
@@ -662,28 +670,28 @@ const ProviderRegister = (props) => {
     // ====================================
 
     const RegisteredPage = () => {
-            return (
-                <>
-                    <AuthConfirmation provider={true} title={"Rejestracja zakończona pomyślnie"}>
-                        Administracja analizuje Twoje zgłoszenie.
-                        Po zakończonej analizie dostaniesz wiadomość email z dalszą instrukcją.
-                        <div className="text-center">
-                            <Button variant="primary" onClick={props.closeAll} className={`mt-2`}>
-                                Wróć na stronę główną
-                            </Button>
-                        </div>
-                    </AuthConfirmation>
-                </>
-            )
-        };
+        return (
+            <>
+                <AuthConfirmation provider={true} title={"Rejestracja zakończona pomyślnie"}>
+                    Administracja analizuje Twoje zgłoszenie.
+                    Po zakończonej analizie dostaniesz wiadomość email z dalszą instrukcją.
+                    <div className="text-center">
+                        <Button variant="primary" onClick={props.closeAll} className={`mt-2`}>
+                            Wróć na stronę główną
+                        </Button>
+                    </div>
+                </AuthConfirmation>
+            </>
+        )
+    };
 
     const page = {
-            "first": FirstPage,
-            "second": SecondPage,
-            "third": ThirdPage,
-            'confirm': ConfirmPage,
-            'registered': RegisteredPage
-        };
+        "first": FirstPage,
+        "second": SecondPage,
+        "third": ThirdPage,
+        'confirm': ConfirmPage,
+        'registered': RegisteredPage
+    };
 
     return (
         <div className={`${styles.wrapper}`}>
