@@ -48,14 +48,14 @@ const Login = () => {
 
     const loginHandler = (event) => {
         event.preventDefault();
+        validatePassword();
+        validateEmail();
         if (enteredPassword.length === 0 || enteredEmail.length === 0) {
             setEmptyPasswordField(enteredPassword.length === 0);
             setEmptyEmailField(enteredEmail.length === 0);
         } else if (validEmail && validPassword) {
             // TODO: fetch login API and check validity of credentials
-            setInvalidCredentials(true)
-        } else {
-            alert("Niepoprawne dane")
+            // setInvalidCredentials(true)
         }
 
     }
@@ -74,7 +74,7 @@ const Login = () => {
                     value={enteredEmail}
                 />
                 {emptyEmailField && errors.emptyField}
-                {!validEmail && errors.invalidEmail}
+                {(!validEmail && !emptyEmailField) && errors.invalidEmail}
             </Form.Group>
             <Form.Group>
                 <Form.Label>Hasło</Form.Label>
@@ -87,7 +87,7 @@ const Login = () => {
                     value={enteredPassword}
                 />
                 {emptyPasswordField && errors.emptyField}
-                {(!validPassword) && errors.tooShortPassword}
+                {(!validPassword && !emptyPasswordField) && errors.tooShortPassword}
             </Form.Group>
             <Form.Group>
                 <Form.Check type="checkbox" label="Zapamiętaj mnie"/>

@@ -31,7 +31,7 @@ const ProviderRegister = (props) => {
             <small className={styles.invalid}>Musisz wybrać przynajmniej jedno pole.</small>
     }
 
-    const [pageVisible, setPageVisible] = useState("registered");
+    const [pageVisible, setPageVisible] = useState("first");
 
     // ====================================
     //             FIRST PAGE
@@ -677,8 +677,7 @@ const ProviderRegister = (props) => {
             )
         };
 
-    const page =
-        {
+    const page = {
             "first": FirstPage,
             "second": SecondPage,
             "third": ThirdPage,
