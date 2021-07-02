@@ -17,3 +17,13 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.sideBarHidden {
+    width: 0;
+    transition: 1s;
+}
+
+.sideBarShown {
+    width: 60vw;
+    transition: 1s;
+}

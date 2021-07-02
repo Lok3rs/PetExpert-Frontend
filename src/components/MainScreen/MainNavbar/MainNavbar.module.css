@@ -1,8 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Blinker&subset=latin');
+
 .navbarLogo {
     height: 55px;
     margin-bottom: 0;
 }
 
 .bgTransparent {
+    background-color: rgba(200, 200, 200, 0.3);
+}
+
+.sideBarWrapper {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    z-index: 2;
+}
+
+.navItem {
+    text-align: center;
+    font-size: 1.3rem;
+    transition: 0.3s;
+    font-family: 'Blinker', serif;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.8);
+}
+
+.navItem:not(.category):hover {
+    background-color: rgba(200, 200, 200, 0.6);
+}
+
+.sideBar {
+    position: absolute;
+    top: 63px;
+    height: 100vh;
+    padding: 0;
+    background-color: rgba(200, 200, 200, 0.3);
+    z-index: 10;
+    width: 60vw;
+    transition: 0.5s;
+}
+
+
+.sideBarHidden {
+    transition: 0.5s;
+    width: 0;
+}
+
+.sideBarHidden .navItem {
+    transition: 0.3s;
+    color: transparent;
+    line-break: strict;
+}
+
+.category {
+    font-weight: bold;
+    font-size: 1.4rem;
     background-color: rgba(200, 200, 200, 0.3);
 }
