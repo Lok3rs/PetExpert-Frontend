@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Button, Form, Dropdown, DropdownButton} from "react-bootstrap";
-import RegisterConfirmation from "./RegisterConfirmation";
+import AuthConfirmation from "./AuthConfirmation";
 
 const ProviderRegister = (props) => {
 
@@ -664,7 +664,7 @@ const ProviderRegister = (props) => {
     const RegisteredPage = () => {
             return (
                 <>
-                    <RegisterConfirmation provider={true}>
+                    <AuthConfirmation provider={true} title={"Rejestracja zakończona pomyślnie"}>
                         Administracja analizuje Twoje zgłoszenie.
                         Po zakończonej analizie dostaniesz wiadomość email z dalszą instrukcją.
                         <div className="text-center">
@@ -672,7 +672,7 @@ const ProviderRegister = (props) => {
                                 Wróć na stronę główną
                             </Button>
                         </div>
-                    </RegisterConfirmation>
+                    </AuthConfirmation>
                 </>
             )
         };

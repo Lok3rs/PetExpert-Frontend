@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
 
 import styles from "./BaseRegister.module.css";
-import RegisterConfirmation from "./RegisterConfirmation";
+import AuthConfirmation from "./AuthConfirmation";
 
 const BaseRegister = (props) => {
 
@@ -91,6 +91,7 @@ const BaseRegister = (props) => {
             setPasswordConfEmpty(enteredPasswordConfirm === '');
         } else {
             setShowRegisterForm(false);
+            props.onConfirm();
         }
     };
 
@@ -169,9 +170,9 @@ const BaseRegister = (props) => {
                         Zarejestruj
                     </Button>
                 </Form> :
-                <RegisterConfirmation>
+                <AuthConfirmation title={"Rejestracja zakończona pomyślnie."} provider={false}>
                     Na Twój adres mailowy wysłaliśmy wiadomość z linkiem aktywującym Twoje konto.
-                </RegisterConfirmation>
+                </AuthConfirmation>
             }
         </>
     )

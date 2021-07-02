@@ -21,6 +21,7 @@ const Login = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [invalidCredentials, setInvalidCredentials] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [emptyEmailField, setEmptyEmailField] = useState(false);
     const [emptyPasswordField, setEmptyPasswordField] = useState(false);
 
@@ -54,49 +55,55 @@ const Login = () => {
             setEmptyPasswordField(enteredPassword.length === 0);
             setEmptyEmailField(enteredEmail.length === 0);
         } else if (validEmail && validPassword) {
+            setInvalidCredentials(false);
             // TODO: fetch login API and check validity of credentials
             // setInvalidCredentials(true)
+            setLoggedIn(true);
         }
 
     }
 
     return (
-        <Form className={`${styles.loginForm}`}>
-            {invalidCredentials && errors.invalidCredentials}
-            <Form.Group>
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                    id={'emailField'}
-                    type="email"
-                    placeholder="Wprowadź email"
-                    onBlur={validateEmail}
-                    onChange={emailChangeHandler}
-                    value={enteredEmail}
-                />
-                {emptyEmailField && errors.emptyField}
-                {(!validEmail && !emptyEmailField) && errors.invalidEmail}
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Hasło</Form.Label>
-                <Form.Control
-                    id={'passwordField'}
-                    type="password"
-                    placeholder="Hasło"
-                    onBlur={validatePassword}
-                    onChange={passwordChangeHandler}
-                    value={enteredPassword}
-                />
-                {emptyPasswordField && errors.emptyField}
-                {(!validPassword && !emptyPasswordField) && errors.tooShortPassword}
-            </Form.Group>
-            <Form.Group>
-                <Form.Check type="checkbox" label="Zapamiętaj mnie"/>
-            </Form.Group>
-            <Button variant="primary" type="submit" onClick={loginHandler}>
-                Zaloguj
-            </Button>
+        !loggedIn ?
+            <Form className={`${styles.loginForm}`}>
+                {invalidCredentials && errors.invalidCredentials}
+                <Form.Group>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        id={'emailField'}
+                        type="email"
+                        placeholder="Wprowadź email"
+                        onBlur={validateEmail}
+                        onChange={emailChangeHandler}
+                        value={enteredEmail}
+                    />
+                    {emptyEmailField && errors.emptyField}
+                    {(!validEmail && !emptyEmailField) && errors.invalidEmail}
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Hasło</Form.Label>
+                    <Form.Control
+                        id={'passwordField'}
+                        type="password"
+                        placeholder="Hasło"
+                        onBlur={validatePassword}
+                        onChange={passwordChangeHandler}
+                        value={enteredPassword}
+                    />
+                    {emptyPasswordField && errors.emptyField}
+                    {(!validPassword && !emptyPasswordField) && errors.tooShortPassword}
+                </Form.Group>
+                <Form.Group>
+                    <Form.Check type="checkbox" label="Zapamiętaj mnie"/>
+                </Form.Group>
+                <Button variant="primary" type="submit" onClick={loginHandler}>
+                    Zaloguj
+                </Button>
 
-        </Form>
+            </Form>
+            :
+            <>
+            </>
     )
 };
 

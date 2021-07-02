@@ -34,9 +34,15 @@ const ModalOverlay = (props) => {
         props.changeBackdropVisibility();
     }
 
+    const [confirmationVisible, setConfirmationVisible] = useState(false);
+
+    const confirmationVisibleHandler = () => {
+      setConfirmationVisible(true);
+    };
+
     return (
         <> {!showProviderRegistration ?
-            <Card className={`${styles.modal} ${visibleForm === 'register' ? styles.modalRegister : undefined}`}>
+            <Card id={'Modal'} className={`${styles.modal} ${(visibleForm === 'register' && !confirmationVisible) ? styles.modalRegister : undefined}`}>
                 <header className={styles.header}>
                     <button className={visibleForm === 'login' ? styles.active : undefined}
                             onClick={showLoginHandler}>Logowanie
@@ -46,13 +52,15 @@ const ModalOverlay = (props) => {
                     </button>
                 </header>
                 {
-                    visibleForm === 'login' && <Login/>
+                    visibleForm === 'login' && <Login />
                 }
                 {
-                    visibleForm === 'register' && <BaseRegister providerRegisterHandler={changeProviderRegistrationFormVisibility}/>
+                    visibleForm === 'register' && <BaseRegister
+                        onConfirm={confirmationVisibleHandler}
+                        providerRegisterHandler={changeProviderRegistrationFormVisibility}
+                    />
                 }
             </Card> :
-
                 ReactDOM.createPortal(<ProviderRegister closeAll={props.changeAuthVisibility} closeForm={changeProviderRegistrationFormVisibility}/>,
                     document.getElementById('overlay-root'))
 
