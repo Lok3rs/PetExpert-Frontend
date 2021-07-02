@@ -18,6 +18,9 @@ const Backdrop = props => {
 
 const ModalOverlay = (props) => {
 
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+
     const [visibleForm, setVisibleForm] = useState('login');
     const [showProviderRegistration, setShowProviderRegistration] = useState(false);
 
@@ -38,21 +41,31 @@ const ModalOverlay = (props) => {
 
     const confirmationVisibleHandler = () => {
       setConfirmationVisible(true);
+      if (visibleForm === 'login') {
+          loginBtn.disabled = true;
+          registerBtn.disabled = true;
+      }
     };
 
     return (
         <> {!showProviderRegistration ?
             <Card id={'Modal'} className={`${styles.modal} ${(visibleForm === 'register' && !confirmationVisible) ? styles.modalRegister : undefined}`}>
                 <header className={styles.header}>
-                    <button className={visibleForm === 'login' ? styles.active : undefined}
-                            onClick={showLoginHandler}>Logowanie
+                    <button
+                            className={visibleForm === 'login' ? styles.active : undefined}
+                            onClick={showLoginHandler}
+                            id={'loginBtn'}>
+                        Logowanie
                     </button>
-                    <button className={visibleForm === 'register' ? styles.active : undefined}
-                            onClick={showRegisterHandler}>Rejestracja
+                    <button
+                        className={visibleForm === 'register' ? styles.active : undefined}
+                        onClick={showRegisterHandler}
+                        id={'registerBtn'}>
+                        Rejestracja
                     </button>
                 </header>
                 {
-                    visibleForm === 'login' && <Login />
+                    visibleForm === 'login' && <Login closeAll={props.changeAuthVisibility} />
                 }
                 {
                     visibleForm === 'register' && <BaseRegister

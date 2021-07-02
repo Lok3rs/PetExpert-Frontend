@@ -3,9 +3,10 @@ import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
 
 import styles from './Login.module.css';
+import AuthConfirmation from "./AuthConfirmation";
 
 
-const Login = () => {
+const Login = (props) => {
 
     const errors = {
         invalidEmail: <small className={styles.invalid}>Nieprawidłowy adres email</small>,
@@ -59,9 +60,13 @@ const Login = () => {
             // TODO: fetch login API and check validity of credentials
             // setInvalidCredentials(true)
             setLoggedIn(true);
+            setTimeout(() => {
+                props.closeAll();
+            }, 5000);
         }
+    };
 
-    }
+
 
     return (
         !loggedIn ?
@@ -102,8 +107,9 @@ const Login = () => {
 
             </Form>
             :
-            <>
-            </>
+            <AuthConfirmation title={"Zalogowano pomyślnie"}>
+                Okno zamknie się samo za kilka sekund.
+            </AuthConfirmation>
     )
 };
 
