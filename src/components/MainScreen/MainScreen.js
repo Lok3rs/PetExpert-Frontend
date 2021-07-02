@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import MainNavbar from "./MainNavbar/MainNavbar";
 
 import styles from "./MainScreen.module.css";
