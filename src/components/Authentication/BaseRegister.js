@@ -79,9 +79,13 @@ const BaseRegister = (props) => {
         setMatchingPasswords(enteredPassword === enteredPasswordConfirm);
     };
 
+    const [showSpinner, setShowSpinner] = useState(true);
+
     const registerHandler = (event) => {
         // TODO: Check if email already exists in database
         event.preventDefault();
+        setShowRegisterForm(false);
+
         if ([enteredFirstName, enteredLastName, enteredEmail, enteredPassword, enteredPasswordConfirm]
             .some(it => it.length === 0)) {
             setFirstNameEmpty(enteredFirstName === '');
@@ -90,26 +94,24 @@ const BaseRegister = (props) => {
             setPasswordFieldEmpty(enteredPassword === '');
             setPasswordConfEmpty(enteredPasswordConfirm === '');
         } else {
-
-
-            const payload={
-                "firstName" : enteredFirstName,
-                "lastName" : enteredLastName,
+            const payload = {
+                "firstName": enteredFirstName,
+                "lastName": enteredLastName,
                 "email": enteredEmail,
                 "password": enteredPassword
             }
-            axios.post(API_BASE_URL+'api/v1/registration/user', payload)
-                .then(function (response) {
+            axios.post(API_BASE_URL + 'api/v1/registration/user', payload)
+                .then((response) => {
                     console.log(response)
-                    if(response.status === 200){
-                        setShowRegisterForm(false);
+                    if (response.status === 200) {
+                        setShowSpinner(false);
                         props.onConfirm();
-                    } else{
+                    } else {
                         //TODO
-                        // props.showError("Some error ocurred");
+                        // props.showError("Some error occurred");
                     }
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log(error);
                 });
         }
@@ -190,7 +192,7 @@ const BaseRegister = (props) => {
                         Zarejestruj
                     </Button>
                 </Form> :
-                <AuthConfirmation title={"Rejestracja zakończona pomyślnie."} provider={false}>
+                <AuthConfirmation title={"Rejestracja zakończona pomyślnie."} provider={false} spinner={showSpinner}>
                     Na Twój adres mailowy wysłaliśmy wiadomość z linkiem aktywującym Twoje konto.
                 </AuthConfirmation>
             }

@@ -8,15 +8,10 @@ import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 
 const AuthConfirmation = (props) => {
 
-    const [showSpinner, setShowSpinner] = useState(true);
-
-    setTimeout(() => {
-        setShowSpinner(false);
-    }, 2000);
 
     return (
         <div className={`py-4 px-1 text-center ${styles.wrapper} ${props.provider && styles.providerWrapper}`}>
-            { showSpinner ?
+            { props.spinner ?
                 <Spinner animation={"border"} variant={"primary"}/> :
                 <>
                     <FontAwesomeIcon className={styles.confirmIcon} icon={faCheckCircle}/>
