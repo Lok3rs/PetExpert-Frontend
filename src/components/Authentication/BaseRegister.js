@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-
+import axios from 'axios';
 import {Button, Form} from "react-bootstrap";
-
+import {API_BASE_URL} from '../../constants/ApiConstants.js';
 import styles from "./BaseRegister.module.css";
 import AuthConfirmation from "./AuthConfirmation";
 
@@ -90,8 +90,28 @@ const BaseRegister = (props) => {
             setPasswordFieldEmpty(enteredPassword === '');
             setPasswordConfEmpty(enteredPasswordConfirm === '');
         } else {
-            setShowRegisterForm(false);
-            props.onConfirm();
+
+
+            const payload={
+                "firstName" : enteredFirstName,
+                "lastName" : enteredLastName,
+                "email": enteredEmail,
+                "password": enteredPassword
+            }
+            axios.post(API_BASE_URL+'api/v1/registration/user', payload)
+                .then(function (response) {
+                    console.log(response)
+                    if(response.status === 200){
+                        setShowRegisterForm(false);
+                        props.onConfirm();
+                    } else{
+                        //TODO
+                        // props.showError("Some error ocurred");
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     };
 
