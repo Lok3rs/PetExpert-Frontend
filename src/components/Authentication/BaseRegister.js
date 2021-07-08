@@ -192,6 +192,7 @@ const BaseRegister = (props) => {
                         Zarejestruj
                     </Button>
                 </Form> :
+                // TODO: give valid props.spinner value to make it more interactive for user
                 <AuthConfirmation title={"Rejestracja zakończona pomyślnie."} provider={false} spinner={showSpinner}>
                     Na Twój adres mailowy wysłaliśmy wiadomość z linkiem aktywującym Twoje konto.
                 </AuthConfirmation>

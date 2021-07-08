@@ -6,6 +6,7 @@ import Card from "../UI/Card";
 import Login from "./Login";
 import BaseRegister from "./BaseRegister";
 import ProviderRegister from "./ProviderRegister";
+import LoggedInMenu from "./LoggedInMenu";
 
 
 const Backdrop = props => {
@@ -50,28 +51,38 @@ const ModalOverlay = (props) => {
     return (
         <> {!showProviderRegistration ?
             <Card id={'Modal'} className={`${styles.modal} ${(visibleForm === 'register' && !confirmationVisible) ? styles.modalRegister : undefined}`}>
-                <header className={styles.header}>
-                    <button
-                            className={visibleForm === 'login' ? styles.active : undefined}
-                            onClick={showLoginHandler}
-                            id={'loginBtn'}>
-                        Logowanie
-                    </button>
-                    <button
-                        className={visibleForm === 'register' ? styles.active : undefined}
-                        onClick={showRegisterHandler}
-                        id={'registerBtn'}>
-                        Rejestracja
-                    </button>
+                <header className={`${styles.header} ${localStorage.getItem('logged') === "1" && styles.header1}`}>
+                    {localStorage.getItem('logged') == null ?
+                        <>
+                            <button
+                                className={visibleForm === 'login' ? styles.active : undefined}
+                                onClick={showLoginHandler}
+                                id={'loginBtn'}>
+                                Logowanie
+                            </button>
+                            <button
+                                className={visibleForm === 'register' ? styles.active : undefined}
+                                onClick={showRegisterHandler}
+                                id={'registerBtn'}>
+                                Rejestracja
+                            </button>
+                        </> :
+                        <>
+                            <h5 className={`text-center py-2 ${styles.headerLogged}`}>Moje konto</h5>
+                        </>
+                    }
                 </header>
                 {
-                    visibleForm === 'login' && <Login closeAll={props.changeAuthVisibility} />
+                    (visibleForm === 'login' && localStorage.getItem("logged") ==  null) && <Login closeAll={props.changeAuthVisibility} />
                 }
                 {
-                    visibleForm === 'register' && <BaseRegister
+                    (visibleForm === 'register' && localStorage.getItem("logged") ==  null) && <BaseRegister
                         onConfirm={confirmationVisibleHandler}
                         providerRegisterHandler={changeProviderRegistrationFormVisibility}
                     />
+                }
+                {
+                    localStorage.getItem("logged") && <LoggedInMenu closeAll={props.changeAuthVisibility} />
                 }
             </Card> :
                 ReactDOM.createPortal(<ProviderRegister closeAll={props.changeAuthVisibility} closeForm={changeProviderRegistrationFormVisibility}/>,
@@ -81,7 +92,7 @@ const ModalOverlay = (props) => {
         </>
 
     )
-}
+};
 
 const AuthModal = (props) => {
 

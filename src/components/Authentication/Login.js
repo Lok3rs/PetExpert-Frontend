@@ -59,13 +59,13 @@ const Login = (props) => {
             setInvalidCredentials(false);
             // TODO: fetch login API and check validity of credentials
             // setInvalidCredentials(true)
+            localStorage.setItem("logged", "1");
             setLoggedIn(true);
             setTimeout(() => {
                 props.closeAll();
-            }, 5000);
+            }, 3000);
         }
     };
-
 
 
     return (
