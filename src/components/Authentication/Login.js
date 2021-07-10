@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-
+import axios from 'axios';
+import {API_BASE_URL} from '../../constants/ApiConstants.js';
 import {Button, Form} from "react-bootstrap";
 
 import styles from './Login.module.css';
 import AuthConfirmation from "./AuthConfirmation";
+import {config} from "@fortawesome/fontawesome-svg-core";
 
 
 const Login = (props) => {
@@ -56,14 +58,31 @@ const Login = (props) => {
             setEmptyPasswordField(enteredPassword.length === 0);
             setEmptyEmailField(enteredEmail.length === 0);
         } else if (validEmail && validPassword) {
-            setInvalidCredentials(false);
-            // TODO: fetch login API and check validity of credentials
-            // setInvalidCredentials(true)
-            localStorage.setItem("logged", "1");
-            setLoggedIn(true);
-            setTimeout(() => {
-                props.closeAll();
-            }, 3000);
+            axios.post(API_BASE_URL + "api/v1/auth/signin", {
+                email    : enteredEmail,
+                password : enteredPassword
+            }, {
+                headers: {
+                    // "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(user => {
+                    console.log(user.data)
+                    //authentication success...
+                    // setInvalidCredentials(false);
+                    // localStorage.setItem("logged", "1");
+                    // setLoggedIn(true);
+                    // setTimeout(() => {
+                    //     props.closeAll();
+                    // }, 3000);
+                })
+                .catch(error=> {
+                    var errResp = error.response;
+                    if (errResp.status === 401) {
+                        //Ex: show login page again...)
+                    }
+                })
         }
     };
 
