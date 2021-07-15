@@ -1,0 +1,19 @@
+.newServiceForm {
+    background: #d6d6d6;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Blinker', serif;
+}
+
+.closeIcon {
+    font-size: 1.1rem;
+}
+
+.closeIcon:hover {
+    color: #fff;
+}
+
+.error {
+    color: #f00;
+}

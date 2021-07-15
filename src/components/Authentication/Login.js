@@ -5,8 +5,6 @@ import {Button, Form} from "react-bootstrap";
 
 import styles from './Login.module.css';
 import AuthConfirmation from "./AuthConfirmation";
-import {config} from "@fortawesome/fontawesome-svg-core";
-
 
 const Login = (props) => {
 
