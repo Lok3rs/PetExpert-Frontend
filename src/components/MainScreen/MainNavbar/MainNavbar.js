@@ -31,12 +31,14 @@ const MainNavbar = (props) => {
                     <AuthModal changeVisibility={changeAuthVisibility} title={"Login"}/>
                 )
             }
-            <Navbar className={`d-flex justify-content-between align-items-center py-1 ${!showSideMenu ? styles.bgTransparent : styles.bgNotTransparent}`}>
+            <Navbar
+                className={`d-flex justify-content-between align-items-center py-1 ${!showSideMenu ? styles.bgTransparent : styles.bgNotTransparent}`}>
                 <FontAwesomeIcon icon={faBars} className={`p-0`} onClick={changeSideMenuVisibility}/>
                 <img src={logo} alt="" className={`${styles.navbarLogo}`}/>
                 <FontAwesomeIcon icon={faUser} className={`p-0`} onClick={changeAuthVisibility}/>
             </Navbar>
-            <Navbar className={`${styles.sideBar} ${!showSideMenu ? styles.sideBarHidden : undefined} d-block`} id={`SideBar`}>
+            <Navbar className={`${styles.sideBar} ${!showSideMenu ? styles.sideBarHidden : undefined} d-block`}
+                    id={`SideBar`}>
                 <Nav.Item className={`${styles.category} ${styles.navItem}`}>
                     {showSideMenu && `Usługi`}
                 </Nav.Item>
@@ -55,12 +57,24 @@ const MainNavbar = (props) => {
                 <Nav.Item className={`${styles.category} ${styles.navItem}`}>
                     {showSideMenu && `Twoje konto`}
                 </Nav.Item>
-                <Nav.Item className={`${styles.navItem}`}>
-                    {showSideMenu && `Logowanie`}
-                </Nav.Item>
-                <Nav.Item className={`${styles.navItem}`}>
-                    {showSideMenu && `Rejestracja`}
-                </Nav.Item>
+                {localStorage.getItem("logged") !== "1" ?
+                    <>
+                        <Nav.Item className={`${styles.navItem}`}>
+                            {showSideMenu && `Logowanie`}
+                        </Nav.Item>
+                        <Nav.Item className={`${styles.navItem}`}>
+                            {showSideMenu && `Rejestracja`}
+                        </Nav.Item>
+                    </> :
+                    <>
+                        <Nav.Item className={`${styles.navItem}`}>
+                            {showSideMenu && `Zarządzaj kontem`}
+                        </Nav.Item>
+                        <Nav.Item className={`${styles.navItem}`}>
+                            {showSideMenu && `Wyloguj`}
+                        </Nav.Item>
+                    </>
+                }
                 <Nav.Item className={`${styles.category} ${styles.navItem}`}>
                     {showSideMenu && `Pozostałe`}
                 </Nav.Item>
