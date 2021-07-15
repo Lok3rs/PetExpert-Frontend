@@ -24,9 +24,10 @@ const Login = (props) => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [invalidCredentials, setInvalidCredentials] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [logging, setLogging] = useState(false);
     const [emptyEmailField, setEmptyEmailField] = useState(false);
     const [emptyPasswordField, setEmptyPasswordField] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const emailChangeHandler = event => {
         setEnteredEmail(event.target.value);
@@ -54,13 +55,14 @@ const Login = (props) => {
         event.preventDefault();
         validatePassword();
         validateEmail();
+        setLogging(true);
         if (enteredPassword.length === 0 || enteredEmail.length === 0) {
             setEmptyPasswordField(enteredPassword.length === 0);
             setEmptyEmailField(enteredEmail.length === 0);
         } else if (validEmail && validPassword) {
             axios.post(API_BASE_URL + "api/v1/auth/signin", {
-                email    : enteredEmail,
-                password : enteredPassword
+                email: enteredEmail,
+                password: enteredPassword
             }, {
                 headers: {
                     // "Content-Type": "application/x-www-form-urlencoded"
@@ -69,18 +71,14 @@ const Login = (props) => {
             })
                 .then(user => {
                     console.log(user.data)
-                    //authentication success...
-                    // setInvalidCredentials(false);
-                    // localStorage.setItem("logged", "1");
-                    // setLoggedIn(true);
-                    // setTimeout(() => {
-                    //     props.closeAll();
-                    // }, 3000);
+                    setInvalidCredentials(false);
+                    localStorage.setItem("logged", "1");
+                    setLoggedIn(true);
                 })
-                .catch(error=> {
-                    var errResp = error.response;
-                    if (errResp.status === 401) {
-                        //Ex: show login page again...)
+                .catch(error => {
+                    if (error.response.status === 401) {
+                        setInvalidCredentials(true);
+                        setLogging(false);
                     }
                 })
         }
@@ -88,7 +86,7 @@ const Login = (props) => {
 
 
     return (
-        !loggedIn ?
+        !logging ?
             <Form className={`${styles.loginForm}`}>
                 {invalidCredentials && errors.invalidCredentials}
                 <Form.Group>
@@ -126,7 +124,7 @@ const Login = (props) => {
 
             </Form>
             :
-            <AuthConfirmation title={"Zalogowano pomyślnie"}>
+            <AuthConfirmation title={"Zalogowano pomyślnie"} spinner={!loggedIn}>
                 Okno zamknie się samo za kilka sekund.
             </AuthConfirmation>
     )
