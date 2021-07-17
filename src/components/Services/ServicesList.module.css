@@ -1,0 +1,55 @@
+.servicesWrapper {
+    width: 100vw;
+    min-height: 100vh;
+    background: #d6d6d6;
+    font-family: "Blinker", sans-serif;
+}
+
+.closeIcon {
+    font-size: 1.1rem;
+    transition: .1s;
+}
+
+.closeIcon:hover {
+    color: #fff;
+    transition: .1s;
+}
+
+.select {
+    width: 100%;
+    border-color: #d6d6d6;
+    background-color: #fff;
+    border-radius: 5px;
+    color: #757575;
+}
+
+.select:focus {
+    border-radius: 5px;
+}
+
+.moreFilters {
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: #000;
+}
+
+.moreFilters:hover {
+    color: #777;
+    background: transparent;
+    border: none;
+}
+
+.filtersHidden {
+    height: 0;
+}
+
+.filtersShow {
+    height: auto;
+}
+
+.price {
+    width: 49%;
+    display: inline;
+}
+
