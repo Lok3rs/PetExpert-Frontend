@@ -10,25 +10,44 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 const NewService = () => {
 
     //TODO: VALIDATE TOO LONG VALUES PROVIDED BY USERS
+    //TODO: CLOSING BUTTON ACTION
 
     const errors = {
-        tooShortServiceName: "Nazwa usługi musi mieć przynajmniej 5 znaków."
+        invalidServiceNameLength: "Nazwa usługi musi zawierać pomiędzy 5 a 40 znaków.",
+        invalidServiceDescLength: "Opis usługi musi zawierać pomiędzy 30 a 200 znakow."
     }
 
+    // SERVICE NAME
     const [serviceName, setServiceName] = useState("");
     const [serviceNameError, setServiceNameError] = useState(false);
 
     const changeServiceNameHandler = event => {
         setServiceName(event.target.value);
         if (serviceNameError) {
-            setServiceNameError(serviceName.length <= 4);
+            validateServiceName();
         }
     };
 
     const validateServiceName = () => {
-        setServiceNameError(serviceName.length < 5);
-
+        setServiceNameError(serviceName.length < 5 || serviceName.length > 40);
     }
+
+
+    // SERVICE DESCRIPTION
+    const [serviceDescription, setServiceDescription] = useState("");
+    const [serviceDescError, setServiceDescError] = useState(false);
+
+    const changeServiceDescHandler = event => {
+        setServiceDescription(event.target.value);
+        if (serviceDescError) {
+            validateServiceDescription();
+        }
+    };
+
+    const validateServiceDescription = () => {
+        setServiceDescError(serviceDescription.length < 30 || serviceDescription.length > 200)
+    };
+
 
     return (
         <Form className={`px-3 ${styles.newServiceForm}`}>
@@ -40,10 +59,23 @@ const NewService = () => {
                     Nowa usługa
                 </h2>
             </header>
+            {/*SERVICE TYPE FIELD*/}
+
+            <Form.Group>
+                <Form.Label>Typ usługi</Form.Label>
+                <select className={styles.select}>
+                    <option value="vet">Usługi weterynaryjne</option>
+                    <option value="beh">Behawiorystyka</option>
+                    <option value="gro">Grooming</option>
+                    <option value="hot">Hotel dla zwierząt / Petsitting</option>
+                </select>
+            </Form.Group>
+
+            {/*SERVICE NAME FIELD*/}
             <Form.Group>
                 <Form.Label>Nazwa usługi</Form.Label>
                 <Form.Control
-                    id={'emailField'}
+                    id={'serviceName'}
                     type="text"
                     placeholder="Nazwa widoczna dla użytkowników portalu"
                     onBlur={validateServiceName}
@@ -53,10 +85,29 @@ const NewService = () => {
                 {
                     serviceNameError &&
                     <small className={`${styles.error}`}>
-                        {errors.tooShortServiceName}
+                        {errors.invalidServiceNameLength}
                     </small>
                 }
+            </Form.Group>
 
+            {/*SERVICE DESCRIPTION FIELD*/}
+            <Form.Group>
+                <Form.Label>Opis usługi</Form.Label>
+                <Form.Control
+                    id={'serviceDescription'}
+                    as="textarea"
+                    rows={4}
+                    placeholder="Krótki opis oferowanej usługi"
+                    onBlur={validateServiceDescription}
+                    onChange={changeServiceDescHandler}
+                    value={serviceDescription}
+                />
+                {
+                    serviceDescError &&
+                    <small className={`${styles.error}`}>
+                        {errors.invalidServiceDescLength}
+                    </small>
+                }
             </Form.Group>
         </Form>
     );
