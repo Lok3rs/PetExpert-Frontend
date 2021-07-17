@@ -15,7 +15,8 @@ const NewService = () => {
     const errors = {
         invalidServiceNameLength: "Nazwa usługi musi zawierać pomiędzy 5 a 40 znaków.",
         invalidServiceDescLength: "Opis usługi musi zawierać pomiędzy 30 a 200 znakow.",
-        emptyFieldError: "To pole nie może być puste."
+        emptyFieldError: "To pole nie może być puste.",
+        invalidPriceError: "Cena musi być dodatnią liczbą całkowitą."
     }
 
     // SERVICE NAME
@@ -65,6 +66,25 @@ const NewService = () => {
         setServicePlaceError(servicePlace.length === 0);
     }
 
+    // SERVICE PRICE
+    const [servicePrice, setServicePrice] = useState('')
+    const [servicePriceError, setServicePriceError] = useState(false);
+
+    const validateServicePrice = () => {
+        if (isNaN(parseInt(servicePrice)) || parseInt(servicePrice) <= 0){
+            setServicePriceError(true);
+            return;
+        }
+        setServicePrice(parseInt(servicePrice).toString());
+        setServicePriceError(false);
+    };
+
+    const changeServicePriceHandler = event => {
+        setServicePrice(event.target.value);
+        if (servicePriceError) {
+            validateServicePrice();
+        }
+    }
 
     return (
         <Form className={`px-3 ${styles.newServiceForm}`}>
@@ -144,6 +164,27 @@ const NewService = () => {
                     </small>
                 }
             </Form.Group>
+
+
+            {/*SERVICE PRICE FIELD*/}
+            <Form.Group>
+                <Form.Label>Cena</Form.Label>
+                <Form.Control
+                    id={'servicePrice'}
+                    placeholder="Cena oferowanej usługi"
+                    onBlur={validateServicePrice}
+                    onChange={changeServicePriceHandler}
+                    value={servicePrice}
+                />
+                {
+                    servicePriceError &&
+                    <small className={`${styles.error}`}>
+                        {errors.invalidPriceError}
+                    </small>
+                }
+            </Form.Group>
+
+
 
 
         </Form>
