@@ -14,7 +14,8 @@ const NewService = () => {
 
     const errors = {
         invalidServiceNameLength: "Nazwa usługi musi zawierać pomiędzy 5 a 40 znaków.",
-        invalidServiceDescLength: "Opis usługi musi zawierać pomiędzy 30 a 200 znakow."
+        invalidServiceDescLength: "Opis usługi musi zawierać pomiędzy 30 a 200 znakow.",
+        emptyFieldError: "To pole nie może być puste."
     }
 
     // SERVICE NAME
@@ -48,6 +49,22 @@ const NewService = () => {
         setServiceDescError(serviceDescription.length < 30 || serviceDescription.length > 200)
     };
 
+    // SERVICE PLACE
+    const [servicePlace, setServicePlace] = useState("");
+    const [servicePlaceError, setServicePlaceError] = useState(false);
+
+    const changeServicePlaceHandler = event => {
+        setServicePlace(event.target.value);
+        if (servicePlaceError) {
+            validateServicePlace();
+        }
+    };
+
+    const validateServicePlace = () => {
+        // TODO: some API checking if place exists in Poland
+        setServicePlaceError(servicePlace.length === 0);
+    }
+
 
     return (
         <Form className={`px-3 ${styles.newServiceForm}`}>
@@ -59,8 +76,8 @@ const NewService = () => {
                     Nowa usługa
                 </h2>
             </header>
-            {/*SERVICE TYPE FIELD*/}
 
+            {/*SERVICE TYPE FIELD*/}
             <Form.Group>
                 <Form.Label>Typ usługi</Form.Label>
                 <select className={styles.select}>
@@ -109,6 +126,26 @@ const NewService = () => {
                     </small>
                 }
             </Form.Group>
+
+            {/*SERVICE PLACE FIELD*/}
+            <Form.Group>
+                <Form.Label>Miejscowość</Form.Label>
+                <Form.Control
+                    id={'servicePlace'}
+                    placeholder="Miejsce oferowanej usługi"
+                    onBlur={validateServicePlace}
+                    onChange={changeServicePlaceHandler}
+                    value={servicePlace}
+                />
+                {
+                    servicePlaceError &&
+                    <small className={`${styles.error}`}>
+                        {errors.emptyFieldError}
+                    </small>
+                }
+            </Form.Group>
+
+
         </Form>
     );
 };
