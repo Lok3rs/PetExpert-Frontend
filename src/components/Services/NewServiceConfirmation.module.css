@@ -1,0 +1,9 @@
+.confirmIcon {
+    font-size: 3rem;
+    color: green;
+}
+
+.confirmationWrapper {
+    text-align: center;
+    padding-top: 30vh;
+}
