@@ -71,7 +71,7 @@ const NewService = () => {
     const [servicePriceError, setServicePriceError] = useState(false);
 
     const validateServicePrice = () => {
-        if (isNaN(parseInt(servicePrice)) || parseInt(servicePrice) <= 0){
+        if (isNaN(parseInt(servicePrice)) || parseInt(servicePrice) <= 0) {
             setServicePriceError(true);
             return;
         }
@@ -101,95 +101,112 @@ const NewService = () => {
         }
     };
 
+    // SUBMIT SERVICE
+
+    const validateAll = () => {
+        validateServicePrice();
+        validateServiceDescription();
+        validateServiceName();
+    };
+
+    const addServiceHandler = () => {
+        validateAll();
+        if (!serviceNameError || !serviceDescError || !servicePriceError) {
+            // TODO: fetch request to backend when it'll be ready
+
+        }
+    };
+
     return (
-        <Form className={`px-3 ${styles.newServiceForm}`}>
-            <header>
-                <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
-                    <FontAwesomeIcon icon={faTimesCircle} className={`${styles.closeIcon}`}/>
-                </div>
-                <h2 className={`text-center`}>
-                    Nowa usługa
-                </h2>
-            </header>
+        <div className={styles.newServiceForm}>
+            <Form className={`px-3`}>
+                <header>
+                    <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
+                        <FontAwesomeIcon icon={faTimesCircle} className={`${styles.closeIcon}`}/>
+                    </div>
+                    <h2 className={`text-center`}>
+                        Nowa usługa
+                    </h2>
+                </header>
 
-            {/*SERVICE TYPE FIELD*/}
-            <Form.Group>
-                <Form.Label>Typ usługi</Form.Label>
-                <select className={styles.select}>
-                    <option value="vet">Usługi weterynaryjne</option>
-                    <option value="beh">Behawiorystyka</option>
-                    <option value="gro">Grooming</option>
-                    <option value="hot">Hotel dla zwierząt / Petsitting</option>
-                </select>
-            </Form.Group>
+                {/*SERVICE TYPE FIELD*/}
+                <Form.Group>
+                    <Form.Label>Typ usługi</Form.Label>
+                    <select className={styles.select}>
+                        <option value="vet">Usługi weterynaryjne</option>
+                        <option value="beh">Behawiorystyka</option>
+                        <option value="gro">Grooming</option>
+                        <option value="hot">Hotel dla zwierząt / Petsitting</option>
+                    </select>
+                </Form.Group>
 
-            {/*SERVICE NAME FIELD*/}
-            <Form.Group>
-                <Form.Label>Nazwa usługi</Form.Label>
-                <Form.Control
-                    id={'serviceName'}
-                    type="text"
-                    placeholder="Nazwa widoczna dla użytkowników portalu"
-                    onBlur={validateServiceName}
-                    onChange={changeServiceNameHandler}
-                    value={serviceName}
-                />
-                {
-                    serviceNameError &&
-                    <small className={`${styles.error}`}>
-                        {errors.invalidServiceNameLength}
-                    </small>
-                }
-            </Form.Group>
+                {/*SERVICE NAME FIELD*/}
+                <Form.Group>
+                    <Form.Label>Nazwa usługi</Form.Label>
+                    <Form.Control
+                        id={'serviceName'}
+                        type="text"
+                        placeholder="Nazwa widoczna dla użytkowników portalu"
+                        onBlur={validateServiceName}
+                        onChange={changeServiceNameHandler}
+                        value={serviceName}
+                    />
+                    {
+                        serviceNameError &&
+                        <small className={`${styles.error}`}>
+                            {errors.invalidServiceNameLength}
+                        </small>
+                    }
+                </Form.Group>
 
-            {/*SERVICE DESCRIPTION FIELD*/}
-            <Form.Group>
-                <Form.Label>Opis usługi</Form.Label>
-                <Form.Control
-                    id={'serviceDescription'}
-                    as="textarea"
-                    rows={4}
-                    placeholder="Krótki opis oferowanej usługi"
-                    onBlur={validateServiceDescription}
-                    onChange={changeServiceDescHandler}
-                    value={serviceDescription}
-                />
-                {
-                    serviceDescError &&
-                    <small className={`${styles.error}`}>
-                        {errors.invalidServiceDescLength}
-                    </small>
-                }
-            </Form.Group>
+                {/*SERVICE DESCRIPTION FIELD*/}
+                <Form.Group>
+                    <Form.Label>Opis usługi</Form.Label>
+                    <Form.Control
+                        id={'serviceDescription'}
+                        as="textarea"
+                        rows={4}
+                        placeholder="Krótki opis oferowanej usługi"
+                        onBlur={validateServiceDescription}
+                        onChange={changeServiceDescHandler}
+                        value={serviceDescription}
+                    />
+                    {
+                        serviceDescError &&
+                        <small className={`${styles.error}`}>
+                            {errors.invalidServiceDescLength}
+                        </small>
+                    }
+                </Form.Group>
 
-            {/*/!*SERVICE PLACE FIELD*!/*/}
-            {/*<Form.Group>*/}
-            {/*    <Form.Label>Miejscowość</Form.Label>*/}
-            {/*    <Form.Control*/}
-            {/*        id={'servicePlace'}*/}
-            {/*        placeholder="Miejsce oferowanej usługi"*/}
-            {/*        onBlur={validateServicePlace}*/}
-            {/*        onChange={changeServicePlaceHandler}*/}
-            {/*        value={servicePlace}*/}
-            {/*    />*/}
-            {/*    {*/}
-            {/*        servicePlaceError &&*/}
-            {/*        <small className={`${styles.error}`}>*/}
-            {/*            {errors.emptyFieldError}*/}
-            {/*        </small>*/}
-            {/*    }*/}
-            {/*</Form.Group>*/}
+                {/*/!*SERVICE PLACE FIELD*!/*/}
+                {/*<Form.Group>*/}
+                {/*    <Form.Label>Miejscowość</Form.Label>*/}
+                {/*    <Form.Control*/}
+                {/*        id={'servicePlace'}*/}
+                {/*        placeholder="Miejsce oferowanej usługi"*/}
+                {/*        onBlur={validateServicePlace}*/}
+                {/*        onChange={changeServicePlaceHandler}*/}
+                {/*        value={servicePlace}*/}
+                {/*    />*/}
+                {/*    {*/}
+                {/*        servicePlaceError &&*/}
+                {/*        <small className={`${styles.error}`}>*/}
+                {/*            {errors.emptyFieldError}*/}
+                {/*        </small>*/}
+                {/*    }*/}
+                {/*</Form.Group>*/}
 
-            <Form.Group>
-                <Form.Check
-                    type="switch"
-                    id="custom-switch"
-                    label="Dojazdy do klienta"
-                    value={driveToClient}
-                    onChange={changeDriveToClientHandler}
-                />
-                {
-                    driveToClient &&
+                <Form.Group>
+                    <Form.Check
+                        type="switch"
+                        id="custom-switch"
+                        label="Dojazdy do klienta"
+                        value={driveToClient}
+                        onChange={changeDriveToClientHandler}
+                    />
+                    {
+                        driveToClient &&
                         <div className={`row px-3 d-flex`}>
                             <Form.Control
                                 type={"number"}
@@ -201,33 +218,39 @@ const NewService = () => {
                             <div className={`${styles.km} pl-1`}>km</div>
                         </div>
 
-                }
+                    }
 
-            </Form.Group>
+                </Form.Group>
 
 
-            {/*SERVICE PRICE FIELD*/}
-            <Form.Group>
-                <Form.Label>Cena</Form.Label>
-                <Form.Control
-                    id={'servicePrice'}
-                    placeholder="Cena oferowanej usługi"
-                    onBlur={validateServicePrice}
-                    onChange={changeServicePriceHandler}
-                    value={servicePrice}
-                />
-                {
-                    servicePriceError &&
-                    <small className={`${styles.error}`}>
-                        {errors.invalidPriceError}
-                    </small>
-                }
-            </Form.Group>
+                {/*SERVICE PRICE FIELD*/}
+                <Form.Group>
+                    <Form.Label>Cena</Form.Label>
+                    <Form.Control
+                        id={'servicePrice'}
+                        placeholder="Cena oferowanej usługi"
+                        onBlur={validateServicePrice}
+                        onChange={changeServicePriceHandler}
+                        value={servicePrice}
+                    />
+                    {
+                        servicePriceError &&
+                        <small className={`${styles.error}`}>
+                            {errors.invalidPriceError}
+                        </small>
+                    }
+                </Form.Group>
 
-            <Button variant={"secondary"} className={`w-100 py-2`}>
-                Dodaj usługę
-            </Button>
-        </Form>
+                <Button
+                    variant={"secondary"}
+                    className={`w-100 py-2`}
+                    onClick={addServiceHandler}
+                >
+                    Dodaj usługę
+                </Button>
+            </Form>
+        </div>
+
     );
 };
 
