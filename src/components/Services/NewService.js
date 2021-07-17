@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import styles from './NewService.module.css';
 
-import {Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -50,21 +50,21 @@ const NewService = () => {
         setServiceDescError(serviceDescription.length < 30 || serviceDescription.length > 200)
     };
 
-    // SERVICE PLACE
-    const [servicePlace, setServicePlace] = useState("");
-    const [servicePlaceError, setServicePlaceError] = useState(false);
-
-    const changeServicePlaceHandler = event => {
-        setServicePlace(event.target.value);
-        if (servicePlaceError) {
-            validateServicePlace();
-        }
-    };
-
-    const validateServicePlace = () => {
-        // TODO: some API checking if place exists in Poland
-        setServicePlaceError(servicePlace.length === 0);
-    }
+    // // SERVICE PLACE
+    // const [servicePlace, setServicePlace] = useState("");
+    // const [servicePlaceError, setServicePlaceError] = useState(false);
+    //
+    // const changeServicePlaceHandler = event => {
+    //     setServicePlace(event.target.value);
+    //     if (servicePlaceError) {
+    //         validateServicePlace();
+    //     }
+    // };
+    //
+    // const validateServicePlace = () => {
+    //     // TODO: some API checking if place exists in Poland
+    //     setServicePlaceError(servicePlace.length === 0);
+    // }
 
     // SERVICE PRICE
     const [servicePrice, setServicePrice] = useState('')
@@ -85,14 +85,29 @@ const NewService = () => {
             validateServicePrice();
         }
     }
+    // DRIVE TO CLIENT
+
+    const [driveToClient, setDriveToClient] = useState(false);
+    const [drivingRadius, setDrivingRadius] = useState(0);
+
+    const changeDriveToClientHandler = () => {
+        setDriveToClient(!driveToClient);
+    };
+
+    const changeDrivingRadiusHandler = (event) => {
+        setDrivingRadius(event.target.value);
+        if (event.target.value < 0) {
+            setDrivingRadius(0);
+        }
+    };
 
     return (
         <Form className={`px-3 ${styles.newServiceForm}`}>
             <header>
-                <div className={"d-flex flex-row-reverse pt-2"}>
+                <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
                     <FontAwesomeIcon icon={faTimesCircle} className={`${styles.closeIcon}`}/>
                 </div>
-                <h2 className={`text-center mt-2`}>
+                <h2 className={`text-center`}>
                     Nowa usługa
                 </h2>
             </header>
@@ -147,22 +162,47 @@ const NewService = () => {
                 }
             </Form.Group>
 
-            {/*SERVICE PLACE FIELD*/}
+            {/*/!*SERVICE PLACE FIELD*!/*/}
+            {/*<Form.Group>*/}
+            {/*    <Form.Label>Miejscowość</Form.Label>*/}
+            {/*    <Form.Control*/}
+            {/*        id={'servicePlace'}*/}
+            {/*        placeholder="Miejsce oferowanej usługi"*/}
+            {/*        onBlur={validateServicePlace}*/}
+            {/*        onChange={changeServicePlaceHandler}*/}
+            {/*        value={servicePlace}*/}
+            {/*    />*/}
+            {/*    {*/}
+            {/*        servicePlaceError &&*/}
+            {/*        <small className={`${styles.error}`}>*/}
+            {/*            {errors.emptyFieldError}*/}
+            {/*        </small>*/}
+            {/*    }*/}
+            {/*</Form.Group>*/}
+
             <Form.Group>
-                <Form.Label>Miejscowość</Form.Label>
-                <Form.Control
-                    id={'servicePlace'}
-                    placeholder="Miejsce oferowanej usługi"
-                    onBlur={validateServicePlace}
-                    onChange={changeServicePlaceHandler}
-                    value={servicePlace}
+                <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    label="Dojazdy do klienta"
+                    value={driveToClient}
+                    onChange={changeDriveToClientHandler}
                 />
                 {
-                    servicePlaceError &&
-                    <small className={`${styles.error}`}>
-                        {errors.emptyFieldError}
-                    </small>
+                    driveToClient &&
+                        <div className={`row px-3 d-flex`}>
+                            <Form.Control
+                                type={"number"}
+                                value={drivingRadius}
+                                className={`mt-2 col-11`}
+                                min={0}
+                                onChange={changeDrivingRadiusHandler}
+                            />
+                            <div className={`${styles.km} pl-1`}>km</div>
+                        </div>
+
                 }
+
             </Form.Group>
 
 
@@ -184,9 +224,9 @@ const NewService = () => {
                 }
             </Form.Group>
 
-
-
-
+            <Button variant={"secondary"} className={`w-100 py-2`}>
+                Dodaj usługę
+            </Button>
         </Form>
     );
 };

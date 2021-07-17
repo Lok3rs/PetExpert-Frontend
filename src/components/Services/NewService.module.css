@@ -2,7 +2,8 @@
     background: #d6d6d6;
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    padding-bottom: 20px;
     font-family: 'Blinker', serif;
 }
 
@@ -25,5 +26,11 @@
     background: #fff;
     padding: 5px;
     width: 100%;
+}
+
+.km {
+    line-height: 100%;
+    align-items: center;
+    padding-top: 18px;
 }
 
