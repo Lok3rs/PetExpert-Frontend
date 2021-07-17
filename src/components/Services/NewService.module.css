@@ -1,10 +1,13 @@
 .newServiceForm {
     background: #d6d6d6;
-    position: absolute;
+    position: fixed;
     width: 100vw;
     min-height: 100vh;
     padding-bottom: 20px;
     font-family: 'Blinker', serif;
+    z-index: 10;
+    top: 0;
+    left: 0;
 }
 
 .closeIcon {
@@ -19,7 +22,7 @@
     color: #f00;
 }
 
-.select{
+.select {
     display: block;
     border: 1px solid #d6d6d6;
     border-radius: 10px;

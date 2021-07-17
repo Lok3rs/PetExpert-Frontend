@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import NewServiceConfirmation from "./NewServiceConfirmation";
 
 
-const NewService = () => {
+const NewService = (props) => {
 
     //TODO: VALIDATE TOO LONG VALUES PROVIDED BY USERS
     //TODO: CLOSING BUTTON ACTION
@@ -130,7 +130,11 @@ const NewService = () => {
                 <Form className={`px-3`}>
                     <header>
                         <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
-                            <FontAwesomeIcon icon={faTimesCircle} className={`${styles.closeIcon}`}/>
+                            <FontAwesomeIcon
+                                icon={faTimesCircle}
+                                className={`${styles.closeIcon}`}
+                                onClick={props.close}
+                            />
                         </div>
                         <h2 className={`text-center`}>
                             Nowa usługa
@@ -259,6 +263,7 @@ const NewService = () => {
                 </Form> :
                 <NewServiceConfirmation
                     showSpinner={showSpinner}
+                    close={props.close}
                 />
 
             }

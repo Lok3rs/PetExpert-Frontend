@@ -16,7 +16,7 @@ const NewServiceConfirmation = (props) => {
                         <h4 className={`align-self-end`}>Usługa dodana pomyślnie!</h4>
                         <h6>Aby umożlwiić użytkownikom rezerwacje usług ustaw dni i godziny ich odbywania w
                             <strong> Mój Profil > Usługi.</strong></h6>
-                        <Button>Wróć na stronę główną</Button>
+                        <Button onClick={props.close}>Zamknij to okno</Button>
                     </>
             }
         </div>
