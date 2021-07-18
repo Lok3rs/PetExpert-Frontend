@@ -1,0 +1,85 @@
+{
+  "services": [
+    {
+      "serviceType": "vet",
+      "serviceName": "Super Weterynarz",
+      "serviceDesc": "Super oferta od super weterynarza! Nic tylko polecać znajomym!",
+      "servicePrice": 150,
+      "drivingToClient": false,
+      "drivingRadius": 0,
+      "city": "Kraków"
+    },
+    {
+      "serviceType": "beh",
+      "serviceName": "Super Behawiorysta",
+      "serviceDesc": "Bezapelacyjnie najlepszy behawiorysta w mieście!!",
+      "servicePrice": 170,
+      "drivingToClient": true,
+      "drivingRadius": 30,
+      "city": "Kraków"
+    },
+    {
+      "serviceType": "beh",
+      "serviceName": "Lepszy Behawiorysta",
+      "serviceDesc": "Behawiorysta jeszcze lepszy od poprzedniego!",
+      "servicePrice": 160,
+      "drivingToClient": true,
+      "drivingRadius": 25,
+      "city": "Kraków"
+    },
+    {
+      "serviceType": "vet",
+      "serviceName": "Salamandra",
+      "serviceDesc": "Super oferta od super weterynarza! Nic tylko polecać znajomym!",
+      "servicePrice": 180,
+      "drivingToClient": false,
+      "drivingRadius": 0,
+      "city": "Warszawa"
+    },
+    {
+      "serviceType": "gro",
+      "serviceName": "Piękny Pies",
+      "serviceDesc": "Najlepszy salon groomerski w mieście!",
+      "servicePrice": 150,
+      "drivingToClient": false,
+      "drivingRadius": 0,
+      "city": "Warszawa"
+    },
+    {
+      "serviceType": "gro",
+      "serviceName": "Mokry Nosek",
+      "serviceDesc": "Fryzjer dla szczęśliwych zwierząt",
+      "servicePrice": 170,
+      "drivingToClient": true,
+      "drivingRadius": 30,
+      "city": "Kraków"
+    },
+    {
+      "serviceType": "hot",
+      "serviceName": "Szarikton",
+      "serviceDesc": "Pięć gwiazdek dla Twojego czworonoga!!",
+      "servicePrice": 150,
+      "drivingToClient": false,
+      "drivingRadius": 0,
+      "city": "Kraków"
+    },
+    {
+      "serviceType": "hot",
+      "serviceName": "Petsitting u Johna",
+      "serviceDesc": "Spacery wraz z lekcjami angielskiego dla Twojego psa!",
+      "servicePrice": 100,
+      "drivingToClient": false,
+      "drivingRadius": 0,
+      "city": "Warszawa"
+    },
+    {
+      "serviceType": "beh",
+      "serviceName": "K9",
+      "serviceDesc": "Szkolenia obronne dla dużych psów!",
+      "servicePrice": 190,
+      "drivingToClient": false,
+      "drivingRadius": 0,
+      "city": "Warszawa"
+    }
+  ]
+}
