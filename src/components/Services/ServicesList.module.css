@@ -75,6 +75,12 @@
 .serviceCard {
     min-height: 10vh;
     border-bottom: 1px solid #aaa;
+    transition: .3s;
+}
+
+.serviceCard:hover {
+    background: rgba(250, 250, 250, 0.3);
+    transition: .3s;
 }
 
 .serviceSecond {
