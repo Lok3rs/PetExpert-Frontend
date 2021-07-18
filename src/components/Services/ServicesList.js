@@ -19,7 +19,15 @@ const ServicesList = (props) => {
         setShowMoreFilters(!showMoreFilters)
     };
 
+    const searchAndFilterHandler = () => {
+        // TODO: requests to backend when it'll be ready
+        console.log("searching")
+    };
+
+
     // TODO: use them!
+    // OK, I see. I did it in the middle of night... Now I see how silly was that, but I just don't want to change it
+    // anymore if its working:P
     const [realPriceFrom, setRealPriceFrom] = useState(0);
     const [realPriceTo, setRealPriceTo] = useState(1000);
     const [realDistanceFromChosenCity, setRealDistanceFromChosenCity] = useState(0);
@@ -145,6 +153,7 @@ const ServicesList = (props) => {
                 <Button
                     variant={'secondary'}
                     className={styles.search}
+                    onClick={searchAndFilterHandler}
                 >
                     Szukaj
                 </Button>
