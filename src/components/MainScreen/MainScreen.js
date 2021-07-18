@@ -8,7 +8,7 @@ import ServicesList from "../Services/ServicesList";
 
 const MainScreen = () => {
 
-    const [showServicesList, setShowServicesList] = useState(true);
+    const [showServicesList, setShowServicesList] = useState(false);
 
     const changeServicesVisibility = () => {
         setShowServicesList(!showServicesList);
