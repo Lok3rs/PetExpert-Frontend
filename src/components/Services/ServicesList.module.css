@@ -1,4 +1,6 @@
 .servicesWrapper {
+    position: absolute;
+    z-index: 100;
     width: 100vw;
     min-height: 100vh;
     background: #d6d6d6;

@@ -39,19 +39,19 @@ const MainNavbar = (props) => {
             </Navbar>
             <Navbar className={`${styles.sideBar} ${!showSideMenu ? styles.sideBarHidden : undefined} d-block`}
                     id={`SideBar`}>
-                <Nav.Item className={`${styles.category} ${styles.navItem}`}>
+                <Nav.Item className={`${styles.category} ${styles.navItem}`} onClick={props.showServices}>
                     {showSideMenu && `Usługi`}
                 </Nav.Item>
-                <Nav.Item className={`${styles.navItem}`}>
+                <Nav.Item className={`${styles.navItem}`} onClick={props.showServices}>
                     {showSideMenu && `Behawioryści`}
                 </Nav.Item>
-                <Nav.Item className={`${styles.navItem}`}>
+                <Nav.Item className={`${styles.navItem}`} onClick={props.showServices}>
                     {showSideMenu && `Hotele / Petsitterzy`}
                 </Nav.Item>
-                <Nav.Item className={`${styles.navItem}`}>
+                <Nav.Item className={`${styles.navItem}`} onClick={props.showServices}>
                     {showSideMenu && `Groomerzy`}
                 </Nav.Item>
-                <Nav.Item className={`${styles.navItem}`}>
+                <Nav.Item className={`${styles.navItem}`} onClick={props.showServices}>
                     {showSideMenu && `Weterynarze`}
                 </Nav.Item>
                 <Nav.Item className={`${styles.category} ${styles.navItem}`}>
