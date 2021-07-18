@@ -21,6 +21,7 @@
     background-color: #fff;
     border-radius: 5px;
     color: #757575;
+    padding-left: 8px;
 }
 
 .select:focus {
@@ -53,3 +54,20 @@
     display: inline;
 }
 
+.distance {
+    width: 40%;
+    display: inline;
+}
+
+.checkbox {
+    transform: scale(1.5);
+    margin-left: 12vw;
+    margin-right: 2vw;
+    position: relative;
+    top: 2px;
+}
+
+.search {
+    width: 100%;
+    margin-top: 8px
+}

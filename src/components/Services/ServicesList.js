@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import styles from './ServicesList.module.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDoubleDown, faAngleDoubleUp, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import {Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 const ServicesList = (props) => {
 
@@ -21,13 +21,21 @@ const ServicesList = (props) => {
 
     // TODO: use them!
     const [realPriceFrom, setRealPriceFrom] = useState(0);
-    const [realPriceTo, setRealPriceTo] = useState(1000)
+    const [realPriceTo, setRealPriceTo] = useState(1000);
+    const [realDistanceFromChosenCity, setRealDistanceFromChosenCity] = useState(0);
+    const [driveToClient, setDriveToClient] = useState(false);
 
 
     const ServicesFilter = () => {
-        // TODO: while fetching to backend, check if priceTo isn't 0. If it is, set infinity
         const [priceFrom, setPriceFrom] = useState(0);
         const [priceTo, setPriceTo] = useState(1000);
+        const [distanceFromCity, setDistanceFromCity] = useState(0);
+
+
+        const changeDriveToClientHandler = (event) => {
+            setDriveToClient(event.target.checked);
+        };
+
 
         const changePriceFromHandler = (event) => {
             if (isNaN(event.target.value)) {
@@ -49,6 +57,17 @@ const ServicesList = (props) => {
                 setPriceTo(0);
             }
             setRealPriceTo(priceTo);
+        };
+
+        const changeDistanceHandler = (event) => {
+            if (isNaN(event.target.value)) {
+                return;
+            }
+            setDistanceFromCity(parseInt(event.target.value));
+            if (distanceFromCity < 0) {
+                setDistanceFromCity(0);
+            }
+            setRealDistanceFromChosenCity(distanceFromCity);
         };
 
         return (
@@ -95,10 +114,21 @@ const ServicesList = (props) => {
                     </Form.Group>}
                     {showMoreFilters &&
                     <Form.Group>
+                        <Form.Label>
+                            Odległość od wybranej miejscowości
+                        </Form.Label>
+                        <br/>
                         <Form.Control
                             type={"number"}
-                            placeholder={""}
-                        />
+                            value={distanceFromCity}
+                            onChange={changeDistanceHandler}
+                            className={styles.distance}
+                        /> km
+                        <input
+                            type={"checkbox"}
+                            className={styles.checkbox}
+                            onChange={changeDriveToClientHandler}
+                        /> dojazd do klienta
                     </Form.Group>}
                 </div>
                 <div className={`text-right mt-1`}>
@@ -112,7 +142,12 @@ const ServicesList = (props) => {
                             <FontAwesomeIcon className={`ml-1`} icon={faAngleDoubleDown}/>}
                     </span>
                 </div>
-
+                <Button
+                    variant={'secondary'}
+                    className={styles.search}
+                >
+                    Szukaj
+                </Button>
             </div>
         )
     };
