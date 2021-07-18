@@ -2,8 +2,17 @@ import React, {useState} from "react";
 
 import styles from './ServicesList.module.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDoubleDown, faAngleDoubleUp, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {
+    faAngleDoubleDown,
+    faAngleDoubleUp,
+    faCut,
+    faHome, faMapMarkerAlt,
+    faPaw, faStethoscope,
+    faTimesCircle, faUser
+} from "@fortawesome/free-solid-svg-icons";
 import {Button, Form} from "react-bootstrap";
+
+import fakeData from './fakedata.json';
 
 const ServicesList = (props) => {
 
@@ -21,7 +30,8 @@ const ServicesList = (props) => {
 
     const searchAndFilterHandler = () => {
         // TODO: requests to backend when it'll be ready
-        console.log("searching")
+        console.log("searching");
+
     };
 
 
@@ -161,6 +171,58 @@ const ServicesList = (props) => {
         )
     };
 
+    const servicesIcons = {
+        "vet": <FontAwesomeIcon icon={faStethoscope} className={`${styles.iconSize}`}/>,
+        "beh": <FontAwesomeIcon icon={faPaw} className={`${styles.iconSize}`}/>,
+        "hot": <FontAwesomeIcon icon={faHome} className={`${styles.iconSize}`}/>,
+        "gro": <FontAwesomeIcon icon={faCut} className={`${styles.iconSize}`}/>
+    }
+
+    const Service = (props) => {
+        return (
+            <div className={`py-2 row ${styles.serviceCard} ${props.index % 2 === 0 && styles.serviceSecond}`}>
+                <div className={`col-2 d-flex text-center align-items-center justify-content-center`}>
+                    {servicesIcons[props.type]}
+                </div>
+                <div className="col-7">
+                    <div className={`row`}>
+                        <div className={`col-7 p-0 text-left ${styles.serviceCity}`}>
+                            <FontAwesomeIcon icon={faUser} /> {props.provider}
+                        </div>
+                        <div className={`col-5 p-0 ${styles.serviceCity} text-right`}>
+                            <FontAwesomeIcon icon={faMapMarkerAlt} /> {props.city}
+                        </div>
+                    </div>
+                    <div className={`row`}>
+                        <div className={'col-12 text-center pt-2'}>
+                            {props.name}
+                        </div>
+                    </div>
+                </div>
+                <div className={`col-3 d-flex text-center align-items-center justify-content-center ${styles.servicePrice}`}>
+                    {props.price}
+                </div>
+
+            </div>
+        )
+    };
+
+    const ServiceListHeader = () => {
+        return (
+            <div className={`row  ${styles.serviceListHeaderWrapper} `}>
+                <div className={'col-2 text-center'}>
+                    Typ
+                </div>
+                <div className={`col-7 text-center`}>
+                    Nazwa
+                </div>
+                <div className={'col-3 text-center'}>
+                    Cena
+                </div>
+            </div>
+        )
+    }
+
 
     return (
         <div className={`px-2 ${styles.servicesWrapper}`}>
@@ -175,6 +237,21 @@ const ServicesList = (props) => {
                 <h2 className={`text-center mt-0 pt-0`}>Lista usług</h2>
             </header>
             <ServicesFilter/>
+            <ServiceListHeader />
+            {fakeData.services.map((service, index) => {
+                return <Service
+                    key={Math.random() + index}
+                    provider={service["provider"]}
+                    name={service["serviceName"]}
+                    type={service["serviceType"]}
+                    desc={service["serviceDesc"]}
+                    price={service["servicePrice"]}
+                    driving={service["drivingToClient"]}
+                    drivingRadius={service["drivingRadius"]}
+                    city={service["city"]}
+                    index={index}
+                />
+            })}
         </div>
     )
 };

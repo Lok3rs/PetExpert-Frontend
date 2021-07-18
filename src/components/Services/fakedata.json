@@ -1,6 +1,7 @@
 {
   "services": [
     {
+      "provider": "Vetika",
       "serviceType": "vet",
       "serviceName": "Super Weterynarz",
       "serviceDesc": "Super oferta od super weterynarza! Nic tylko polecać znajomym!",
@@ -10,6 +11,7 @@
       "city": "Kraków"
     },
     {
+      "provider": "Kamil S.",
       "serviceType": "beh",
       "serviceName": "Super Behawiorysta",
       "serviceDesc": "Bezapelacyjnie najlepszy behawiorysta w mieście!!",
@@ -19,6 +21,7 @@
       "city": "Kraków"
     },
     {
+      "provider": "Tomek B.",
       "serviceType": "beh",
       "serviceName": "Lepszy Behawiorysta",
       "serviceDesc": "Behawiorysta jeszcze lepszy od poprzedniego!",
@@ -28,6 +31,7 @@
       "city": "Kraków"
     },
     {
+      "provider": "Salamandra",
       "serviceType": "vet",
       "serviceName": "Salamandra",
       "serviceDesc": "Super oferta od super weterynarza! Nic tylko polecać znajomym!",
@@ -37,6 +41,7 @@
       "city": "Warszawa"
     },
     {
+      "provider": "Anastasia H.",
       "serviceType": "gro",
       "serviceName": "Piękny Pies",
       "serviceDesc": "Najlepszy salon groomerski w mieście!",
@@ -46,6 +51,7 @@
       "city": "Warszawa"
     },
     {
+      "provider": "Monika B.",
       "serviceType": "gro",
       "serviceName": "Mokry Nosek",
       "serviceDesc": "Fryzjer dla szczęśliwych zwierząt",
@@ -55,6 +61,7 @@
       "city": "Kraków"
     },
     {
+      "provider": "Bogusław W.",
       "serviceType": "hot",
       "serviceName": "Szarikton",
       "serviceDesc": "Pięć gwiazdek dla Twojego czworonoga!!",
@@ -64,6 +71,7 @@
       "city": "Kraków"
     },
     {
+      "provider": "John Doe",
       "serviceType": "hot",
       "serviceName": "Petsitting u Johna",
       "serviceDesc": "Spacery wraz z lekcjami angielskiego dla Twojego psa!",
@@ -73,6 +81,7 @@
       "city": "Warszawa"
     },
     {
+      "provider": "Andrzej Duda",
       "serviceType": "beh",
       "serviceName": "K9",
       "serviceDesc": "Szkolenia obronne dla dużych psów!",

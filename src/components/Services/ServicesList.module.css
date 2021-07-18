@@ -71,3 +71,37 @@
     width: 100%;
     margin-top: 8px
 }
+
+.serviceCard {
+    min-height: 10vh;
+    border-bottom: 1px solid #aaa;
+}
+
+.serviceSecond {
+    background-color: #eee;
+}
+
+
+.iconSize {
+    font-size: 1.5rem;
+}
+
+.servicePrice {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.serviceCity {
+    font-size: 0.7rem;
+}
+
+.serviceListHeaderWrapper {
+    font-size: 1.3rem;
+    line-height: 3rem;
+    border-bottom: 1px solid #aaa;
+}
+
+.serviceListHeaderMiddle {
+    border-right: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+}
