@@ -223,7 +223,7 @@ const ServicesList = (props) => {
 
     const getOffers = () => {
         axios.get(API_BASE_URL + 'api/v1/offers').then((res) => {
-            return res.data;
+            console.log(res.data)
         });
     };
 
@@ -231,6 +231,7 @@ const ServicesList = (props) => {
     return (
         <div className={`px-2 ${styles.servicesWrapper}`}>
             <header>
+                <button onClick={getOffers}>CLICK ME</button>
                 <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
                     <FontAwesomeIcon
                         icon={faTimesCircle}
