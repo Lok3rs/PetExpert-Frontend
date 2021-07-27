@@ -6,6 +6,8 @@ import {Button, Form} from "react-bootstrap";
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import NewServiceConfirmation from "./NewServiceConfirmation";
+import axios from "axios";
+import {API_BASE_URL} from "../../constants/ApiConstants";
 
 
 const NewService = (props) => {
@@ -51,21 +53,21 @@ const NewService = (props) => {
         setServiceDescError(serviceDescription.length < 30 || serviceDescription.length > 200)
     };
 
-    // // SERVICE PLACE
-    // const [servicePlace, setServicePlace] = useState("");
-    // const [servicePlaceError, setServicePlaceError] = useState(false);
-    //
-    // const changeServicePlaceHandler = event => {
-    //     setServicePlace(event.target.value);
-    //     if (servicePlaceError) {
-    //         validateServicePlace();
-    //     }
-    // };
-    //
-    // const validateServicePlace = () => {
-    //     // TODO: some API checking if place exists in Poland
-    //     setServicePlaceError(servicePlace.length === 0);
-    // }
+    // SERVICE PLACE
+    const [servicePlace, setServicePlace] = useState("");
+    const [servicePlaceError, setServicePlaceError] = useState(false);
+
+    const changeServicePlaceHandler = event => {
+        setServicePlace(event.target.value);
+        if (servicePlaceError) {
+            validateServicePlace();
+        }
+    };
+
+    const validateServicePlace = () => {
+        // TODO: some API checking if place exists in Poland
+        setServicePlaceError(servicePlace.length === 0);
+    }
 
     // SERVICE PRICE
     const [servicePrice, setServicePrice] = useState('')
@@ -118,10 +120,31 @@ const NewService = (props) => {
         if (!serviceNameError || !serviceDescError || !servicePriceError) {
             // TODO: fetch request to backend when it'll be ready
             setServiceSubmitted(true);
-            setTimeout(() => {
-                setShowSpinner(false);
-            }, 3000)
+            axios
+                .post(API_BASE_URL + "api/v1/offers", {
+                    "name": serviceName,
+                    "description": serviceDescription,
+                    "price": servicePrice,
+                    "drivingToClient": driveToClient,
+                    "drivingRadius": drivingRadius,
+                    // TODO: Get back city to form or get it from user
+                    "city": servicePlace,
+                    "serviceId": parseInt(serviceType),
+                    // TODO: get user ID
+                    "providerId": 1,
+                    "providerName": "Dawid"
+            })
+                .then((res) => {
+                    setShowSpinner(false);
+                    console.log(res);
+            })
         }
+    };
+
+    const [serviceType, setServiceType] = useState("1");
+
+    const changeServiceTypeHandler = (event) => {
+        setServiceType(event.target.value);
     };
 
     return (
@@ -144,11 +167,11 @@ const NewService = (props) => {
                     {/*SERVICE TYPE FIELD*/}
                     <Form.Group>
                         <Form.Label>Typ usługi</Form.Label>
-                        <select className={styles.select}>
-                            <option value="vet">Usługi weterynaryjne</option>
-                            <option value="beh">Behawiorystyka</option>
-                            <option value="gro">Grooming</option>
-                            <option value="hot">Hotel dla zwierząt / Petsitting</option>
+                        <select className={styles.select} value={serviceType} onChange={changeServiceTypeHandler}>
+                            <option value="1">Usługi weterynaryjne</option>
+                            <option value="2">Behawiorystyka</option>
+                            <option value="3">Grooming</option>
+                            <option value="4">Hotel dla zwierząt / Petsitting</option>
                         </select>
                     </Form.Group>
 
@@ -191,23 +214,23 @@ const NewService = (props) => {
                         }
                     </Form.Group>
 
-                    {/*/!*SERVICE PLACE FIELD*!/*/}
-                    {/*<Form.Group>*/}
-                    {/*    <Form.Label>Miejscowość</Form.Label>*/}
-                    {/*    <Form.Control*/}
-                    {/*        id={'servicePlace'}*/}
-                    {/*        placeholder="Miejsce oferowanej usługi"*/}
-                    {/*        onBlur={validateServicePlace}*/}
-                    {/*        onChange={changeServicePlaceHandler}*/}
-                    {/*        value={servicePlace}*/}
-                    {/*    />*/}
-                    {/*    {*/}
-                    {/*        servicePlaceError &&*/}
-                    {/*        <small className={`${styles.error}`}>*/}
-                    {/*            {errors.emptyFieldError}*/}
-                    {/*        </small>*/}
-                    {/*    }*/}
-                    {/*</Form.Group>*/}
+                    {/*SERVICE PLACE FIELD*/}
+                    <Form.Group>
+                        <Form.Label>Miejscowość</Form.Label>
+                        <Form.Control
+                            id={'servicePlace'}
+                            placeholder="Miejsce oferowanej usługi"
+                            onBlur={validateServicePlace}
+                            onChange={changeServicePlaceHandler}
+                            value={servicePlace}
+                        />
+                        {
+                            servicePlaceError &&
+                            <small className={`${styles.error}`}>
+                                {errors.emptyFieldError}
+                            </small>
+                        }
+                    </Form.Group>
 
                     <Form.Group>
                         <Form.Check

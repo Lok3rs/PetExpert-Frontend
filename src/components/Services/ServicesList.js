@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 
+import {API_BASE_URL} from '../../constants/ApiConstants.js';
 import styles from './ServicesList.module.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -11,6 +12,7 @@ import {
     faTimesCircle, faUser
 } from "@fortawesome/free-solid-svg-icons";
 import {Button, Form} from "react-bootstrap";
+import axios from 'axios';
 
 import fakeData from './fakedata.json';
 
@@ -34,10 +36,6 @@ const ServicesList = (props) => {
 
     };
 
-
-    // TODO: use them!
-    // OK, I see. I did it in the middle of night... Now I see how silly was that, but I just don't want to change it
-    // anymore if its working:P
     const [realPriceFrom, setRealPriceFrom] = useState(0);
     const [realPriceTo, setRealPriceTo] = useState(1000);
     const [realDistanceFromChosenCity, setRealDistanceFromChosenCity] = useState(0);
@@ -204,7 +202,7 @@ const ServicesList = (props) => {
                 </div>
 
             </div>
-        )
+        );
     };
 
     const ServiceListHeader = () => {
@@ -220,8 +218,14 @@ const ServicesList = (props) => {
                     Cena
                 </div>
             </div>
-        )
-    }
+        );
+    };
+
+    const getOffers = () => {
+        axios.get(API_BASE_URL + 'api/v1/offers').then((res) => {
+            return res.data;
+        });
+    };
 
 
     return (
@@ -253,7 +257,7 @@ const ServicesList = (props) => {
                 />
             })}
         </div>
-    )
+    );
 };
 
 export default ServicesList;
