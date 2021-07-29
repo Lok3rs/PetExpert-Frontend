@@ -7,6 +7,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Button, Form, Dropdown, DropdownButton} from "react-bootstrap";
 import AuthConfirmation from "./AuthConfirmation";
+import axios from "axios";
+import {API_BASE_URL} from "../../constants/ApiConstants";
 
 
 const ProviderRegister = (props) => {
@@ -383,10 +385,10 @@ const ProviderRegister = (props) => {
     const services = ["Behawiorystyka", "Hotel dla zwierząt / Petsitting", "Grooming", "Weterynaria"]
 
     const servicesCodes = {
-        "Behawiorystyka": 1,
-        "Hotel dla zwierząt / Petsitting": 2,
+        "Behawiorystyka": 2,
+        "Hotel dla zwierząt / Petsitting": 4,
         "Grooming": 3,
-        "Weterynaria": 4
+        "Weterynaria": 1
     }
 
     const [validServicePostCode, setValidServicePostCode] = useState(true);
@@ -608,15 +610,28 @@ const ProviderRegister = (props) => {
     // ====================================
 
     const registerHandler = () => {
-        const servicesAsBooleans = {
-            behaviorist: chosenServices.some(serv => serv === "1"),
-            hotel: chosenServices.some(serv => serv === "2"),
-            groomer: chosenServices.some(serv => serv === "3"),
-            vet: chosenServices.some(serv => serv === "4")
-        };
-        console.log(servicesAsBooleans);
-        // TODO: Fetch and check if response is OK!
-        setPageVisible('registered');
+        axios.post(API_BASE_URL + "api/v1/registration/provider",{
+            "firstName": enteredFirstName,
+            "lastName": enteredLastName,
+            "password": enteredPassword,
+            "email": enteredEmail,
+            "phone": enteredPhoneNumber,
+            "nip": enteredNIPNumber,
+            "userCity": enteredCity,
+            "userZip": enteredPostCode,
+            "userStreet": serviceStreetName,
+            "userNumber": enteredHouseNumber,
+            "companyName": enteredCompanyName,
+            "companyNumber": serviceHouseNumber,
+            "companyStreet": serviceStreetName,
+            "companyCity": serviceCity,
+            "companyLocal": enteredApartNumber,
+            "companyZip": servicePostCode,
+            "services": chosenServices,
+            "adminMessage": additionalInfo
+        }).then(res => {
+            setPageVisible('registered');
+        })
     }
 
     const ConfirmPage = () => {
