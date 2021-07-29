@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {API_BASE_URL} from '../../constants/ApiConstants.js';
 import styles from './ServicesList.module.css';
@@ -15,6 +15,18 @@ import {Button, Form} from "react-bootstrap";
 import axios from 'axios';
 
 import fakeData from './fakedata.json';
+
+
+let services;
+
+const getOffers = () => {
+    axios.get(API_BASE_URL + 'api/v1/offers').then((res) => {
+        services = res.data.content;
+        console.log(services)
+    });
+};
+
+getOffers();
 
 const ServicesList = (props) => {
 
@@ -170,10 +182,10 @@ const ServicesList = (props) => {
     };
 
     const servicesIcons = {
-        "vet": <FontAwesomeIcon icon={faStethoscope} className={`${styles.iconSize}`}/>,
-        "beh": <FontAwesomeIcon icon={faPaw} className={`${styles.iconSize}`}/>,
-        "hot": <FontAwesomeIcon icon={faHome} className={`${styles.iconSize}`}/>,
-        "gro": <FontAwesomeIcon icon={faCut} className={`${styles.iconSize}`}/>
+        "1" : <FontAwesomeIcon icon={faStethoscope} className={`${styles.iconSize}`}/>,
+        "2" : <FontAwesomeIcon icon={faPaw} className={`${styles.iconSize}`}/>,
+        "4" : <FontAwesomeIcon icon={faHome} className={`${styles.iconSize}`}/>,
+        "3" : <FontAwesomeIcon icon={faCut} className={`${styles.iconSize}`}/>
     }
 
     const Service = (props) => {
@@ -221,17 +233,12 @@ const ServicesList = (props) => {
         );
     };
 
-    const getOffers = () => {
-        axios.get(API_BASE_URL + 'api/v1/offers').then((res) => {
-            console.log(res.data)
-        });
-    };
+
 
 
     return (
         <div className={`px-2 ${styles.servicesWrapper}`}>
             <header>
-                <button onClick={getOffers}>CLICK ME</button>
                 <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
                     <FontAwesomeIcon
                         icon={faTimesCircle}
@@ -243,17 +250,17 @@ const ServicesList = (props) => {
             </header>
             <ServicesFilter/>
             <ServiceListHeader />
-            {fakeData.services.map((service, index) => {
+            {services.map((service, index) => {
                 return <Service
                     key={Math.random() + index}
-                    provider={service["provider"]}
-                    name={service["serviceName"]}
-                    type={service["serviceType"]}
-                    desc={service["serviceDesc"]}
-                    price={service["servicePrice"]}
-                    driving={service["drivingToClient"]}
-                    drivingRadius={service["drivingRadius"]}
-                    city={service["city"]}
+                    provider={service.providerName}
+                    name={service.name}
+                    type={service.serviceId}
+                    desc={service.description}
+                    price={service.price}
+                    driving={service.drivingToClient}
+                    drivingRadius={service.drivingRadius}
+                    city={service.city}
                     index={index}
                 />
             })}
