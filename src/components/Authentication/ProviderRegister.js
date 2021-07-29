@@ -609,7 +609,10 @@ const ProviderRegister = (props) => {
     //             CONFIRM PAGE
     // ====================================
 
+    const [showSpinner, setShowSpinner] = useState(true);
+
     const registerHandler = () => {
+        setPageVisible('registered');
         axios.post(API_BASE_URL + "api/v1/registration/provider",{
             "firstName": enteredFirstName,
             "lastName": enteredLastName,
@@ -630,7 +633,8 @@ const ProviderRegister = (props) => {
             "services": chosenServices,
             "adminMessage": additionalInfo
         }).then(res => {
-            setPageVisible('registered');
+
+            setShowSpinner(false);
         })
     }
 
@@ -687,7 +691,10 @@ const ProviderRegister = (props) => {
     const RegisteredPage = () => {
         return (
             <>
-                <AuthConfirmation provider={true} title={"Rejestracja zakończona pomyślnie"}>
+                {
+
+                }
+                <AuthConfirmation provider={true} spinner={showSpinner} title={"Rejestracja zakończona pomyślnie"}>
                     Administracja analizuje Twoje zgłoszenie.
                     Po zakończonej analizie dostaniesz wiadomość email z dalszą instrukcją.
                     <div className="text-center">
