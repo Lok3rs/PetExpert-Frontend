@@ -11,9 +11,8 @@ import {
     faPaw, faStethoscope,
     faTimesCircle, faUser
 } from "@fortawesome/free-solid-svg-icons";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import axios from 'axios';
-
 
 
 const ServicesList = (props) => {
@@ -170,10 +169,10 @@ const ServicesList = (props) => {
     };
 
     const servicesIcons = {
-        "1" : <FontAwesomeIcon icon={faStethoscope} className={`${styles.iconSize}`}/>,
-        "2" : <FontAwesomeIcon icon={faPaw} className={`${styles.iconSize}`}/>,
-        "4" : <FontAwesomeIcon icon={faHome} className={`${styles.iconSize}`}/>,
-        "3" : <FontAwesomeIcon icon={faCut} className={`${styles.iconSize}`}/>
+        "1": <FontAwesomeIcon icon={faStethoscope} className={`${styles.iconSize}`}/>,
+        "2": <FontAwesomeIcon icon={faPaw} className={`${styles.iconSize}`}/>,
+        "4": <FontAwesomeIcon icon={faHome} className={`${styles.iconSize}`}/>,
+        "3": <FontAwesomeIcon icon={faCut} className={`${styles.iconSize}`}/>
     }
 
     const Service = (props) => {
@@ -185,10 +184,10 @@ const ServicesList = (props) => {
                 <div className="col-7">
                     <div className={`row`}>
                         <div className={`col-7 p-0 text-left ${styles.serviceCity}`}>
-                            <FontAwesomeIcon icon={faUser} /> {props.provider}
+                            <FontAwesomeIcon icon={faUser}/> {props.provider}
                         </div>
                         <div className={`col-5 p-0 ${styles.serviceCity} text-right`}>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} /> {props.city}
+                            <FontAwesomeIcon icon={faMapMarkerAlt}/> {props.city}
                         </div>
                     </div>
                     <div className={`row`}>
@@ -197,7 +196,8 @@ const ServicesList = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className={`col-3 d-flex text-center align-items-center justify-content-center ${styles.servicePrice}`}>
+                <div
+                    className={`col-3 d-flex text-center align-items-center justify-content-center ${styles.servicePrice}`}>
                     {props.price}
                 </div>
 
@@ -222,48 +222,85 @@ const ServicesList = (props) => {
     };
 
 
-
     const [services, setServices] = useState([]);
+    const [loadingServices, setLoadingServices] = useState(false);
+    const [allServicesLoaded, setAllServicesLoaded] = useState(false);
 
     const fetchOffers = async () => {
-        const response = await axios.get(API_BASE_URL + 'api/v1/offers');
-        setServices(response.data.content);
+        setLoadingServices(true);
+        const response = await axios.get(API_BASE_URL + 'api/v1/offers', {
+            params: {
+                "pageNumber": pageNumber
+            }
+        });
+        setAllServicesLoaded(response.data.numberOfElements < 10);
+        setServices([...services, ...response.data.content]);
+        setLoadingServices(false);
     };
+
+    const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         // .then just to avoid warnings, fetch offers doesn't return anything
         fetchOffers().then();
-    }, []);
+    }, [pageNumber]);
+
+    const increasePageNumber = () => {
+        setPageNumber(pageNumber + 1);
+    }
 
     return (
-        <div className={`px-2 ${styles.servicesWrapper}`}>
-            <header>
-                <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
-                    <FontAwesomeIcon
-                        icon={faTimesCircle}
-                        className={`${styles.closeIcon}`}
-                        onClick={props.close}
+        <div className={`${styles.servicesWrapper}`}>
+            <div className={`px-2`}>
+                <header>
+                    <div className={"d-flex flex-row-reverse pt-2 mb-0 pb-0"}>
+                        <FontAwesomeIcon
+                            icon={faTimesCircle}
+                            className={`${styles.closeIcon}`}
+                            onClick={props.close}
+                        />
+                    </div>
+                    <h2 className={`text-center mt-0 pt-0`}>Lista usług</h2>
+                </header>
+                <ServicesFilter/>
+                <ServiceListHeader/>
+                {services.map((service, index) => {
+                    return <Service
+                        key={Math.random() + index}
+                        provider={service.providerName}
+                        name={service.name}
+                        type={service.serviceId}
+                        desc={service.description}
+                        price={service.price}
+                        driving={service.drivingToClient}
+                        drivingRadius={service.drivingRadius}
+                        city={service.city}
+                        index={index}
                     />
-                </div>
-                <h2 className={`text-center mt-0 pt-0`}>Lista usług</h2>
-            </header>
-            <ServicesFilter/>
-            <ServiceListHeader />
-            {services.map((service, index) => {
-                return <Service
-                    key={Math.random() + index}
-                    provider={service.providerName}
-                    name={service.name}
-                    type={service.serviceId}
-                    desc={service.description}
-                    price={service.price}
-                    driving={service.drivingToClient}
-                    drivingRadius={service.drivingRadius}
-                    city={service.city}
-                    index={index}
-                />
-            })}
+                })}
+
+            </div>
+            {
+                !allServicesLoaded &&
+                <Button
+                    variant={'outline-secondary'}
+                    className={`${styles.moreOffersBtn}`}
+                    onClick={increasePageNumber}>
+                    {
+                        loadingServices &&
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                    }
+                    Załaduj więcej ofert
+                </Button>
+            }
         </div>
+
     );
 };
 

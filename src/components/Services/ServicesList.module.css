@@ -5,6 +5,7 @@
     min-height: 100vh;
     background: #d6d6d6;
     font-family: "Blinker", sans-serif;
+    padding: 0;
 }
 
 .closeIcon {
@@ -112,4 +113,11 @@
 .serviceListHeaderMiddle {
     border-right: 1px solid #aaa;
     border-left: 1px solid #aaa;
+}
+
+.moreOffersBtn {
+    width: 100%;
+    margin: 0 !important;
+    border: none;
+    border-radius: 0;
 }
