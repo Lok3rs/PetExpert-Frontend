@@ -14,19 +14,7 @@ import {
 import {Button, Form} from "react-bootstrap";
 import axios from 'axios';
 
-import fakeData from './fakedata.json';
 
-
-let services;
-
-const getOffers = () => {
-    axios.get(API_BASE_URL + 'api/v1/offers').then((res) => {
-        services = res.data.content;
-        console.log(services)
-    });
-};
-
-getOffers();
 
 const ServicesList = (props) => {
 
@@ -235,6 +223,17 @@ const ServicesList = (props) => {
 
 
 
+    const [services, setServices] = useState([]);
+
+    const fetchOffers = async () => {
+        const response = await axios.get(API_BASE_URL + 'api/v1/offers');
+        setServices(response.data.content);
+    };
+
+    useEffect(() => {
+        // .then just to avoid warnings, fetch offers doesn't return anything
+        fetchOffers().then();
+    }, []);
 
     return (
         <div className={`px-2 ${styles.servicesWrapper}`}>
