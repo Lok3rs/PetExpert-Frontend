@@ -39,7 +39,11 @@ const LoggedInMenu = (props) => {
                             <button>Ustawienia bezpieczeństwa</button>
                         </li>
                         <li>
-                            <button onClick={changeNewServiceFormVisibility}>Zaoferuj usługę</button>
+                            {
+                                localStorage.getItem("userRoles").includes("PROVIDER") &&
+                                <button onClick={changeNewServiceFormVisibility}>Zaoferuj usługę</button>
+                            }
+
                         </li>
                         <li>
                             <button onClick={logOutHandler}>Wyloguj</button>
