@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import styles from './LoggedInMenu.module.css';
 import AuthConfirmation from "./AuthConfirmation";
 import NewService from "../Services/NewService";
+import * as ReactDOM from "react-dom";
 
 const LoggedInMenu = (props) => {
 
@@ -26,7 +27,8 @@ const LoggedInMenu = (props) => {
     return (
         <>
             {showNewServiceForm ?
-                <NewService close={changeNewServiceFormVisibility}/> :
+                ReactDOM.createPortal(<NewService close={changeNewServiceFormVisibility}/>, document.getElementById("new-service-root"))
+                 :
                 (loggedIn ?
                     <ul className={styles.menuOptions}>
                         <li>

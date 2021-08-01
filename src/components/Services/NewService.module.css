@@ -1,6 +1,6 @@
 .newServiceForm {
     background: #d6d6d6;
-    position: fixed;
+    position: absolute;
     width: 100vw;
     min-height: 100vh;
     padding-bottom: 20px;

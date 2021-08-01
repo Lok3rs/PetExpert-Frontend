@@ -82,7 +82,9 @@ const ModalOverlay = (props) => {
                     />
                 }
                 {
-                    localStorage.getItem("logged") && <LoggedInMenu closeAll={props.changeAuthVisibility} />
+                    localStorage.getItem("logged") && <LoggedInMenu
+                        closeAll={props.changeAuthVisibility}
+                        changeBackdropVisibility={props.changeBackdropVisibility}/>
                 }
             </Card> :
                 ReactDOM.createPortal(<ProviderRegister closeAll={props.changeAuthVisibility} closeForm={changeProviderRegistrationFormVisibility}/>,
