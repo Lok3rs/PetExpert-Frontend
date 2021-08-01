@@ -68,9 +68,11 @@ const Login = (props) => {
                 }
             })
                 .then(user => {
-                    console.log(user.data)
                     setInvalidCredentials(false);
                     localStorage.setItem("logged", "1");
+                    localStorage.setItem("userId", user.data.id)
+                    localStorage.setItem("userRoles", user.data.roles)
+                    localStorage.setItem("userToken", user.data.token)
                     setLoggedIn(true);
                 })
                 .catch(error => {
