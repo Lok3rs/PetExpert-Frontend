@@ -5,3 +5,15 @@
 .h20 {
     height: 20vh;
 }
+
+.iconsDescription{
+    display: none;
+}
+
+@media (min-width: 720px) {
+    .iconsDescription {
+        display: block;
+        font-family: "Blinker", sans-serif;
+        font-size: 1.5rem;
+    }
+}
