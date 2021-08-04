@@ -8,6 +8,10 @@
     background: rgba(0, 0, 0, 0.75);
 }
 
+.modal{
+    font-family: "Blinker", sans-serif;
+}
+
 .modal {
     position: absolute;
     top: 10vh;
@@ -72,4 +76,22 @@
 
 .active {
     background-color: #d6d6d6 !important;
+}
+
+@media(min-width: 720px) {
+
+    .headerLogged{
+        font-size: 1.6rem;
+    }
+
+    .modal {
+        width: 33%;
+        left: 33%;
+        top: 30%;
+        font-size: 1.5rem;
+    }
+
+    .modalRegister {
+        top: 17%;
+    }
 }

@@ -55,13 +55,13 @@ const ModalOverlay = (props) => {
                     {localStorage.getItem('logged') == null ?
                         <>
                             <button
-                                className={visibleForm === 'login' ? styles.active : undefined}
+                                className={visibleForm !== 'login' ? styles.active : undefined}
                                 onClick={showLoginHandler}
                                 id={'loginBtn'}>
                                 Logowanie
                             </button>
                             <button
-                                className={visibleForm === 'register' ? styles.active : undefined}
+                                className={visibleForm !== 'register' ? styles.active : undefined}
                                 onClick={showRegisterHandler}
                                 id={'registerBtn'}>
                                 Rejestracja
