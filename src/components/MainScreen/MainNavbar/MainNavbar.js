@@ -9,7 +9,6 @@ import logoNoText from './logo_notext.png';
 import logo from './logo.png';
 import styles from './MainNavbar.module.css';
 import AuthModal from "../../Authentication/AuthModal";
-import {Button} from "react-bootstrap";
 
 const MainNavbar = (props) => {
 
@@ -106,10 +105,10 @@ const MainNavbar = (props) => {
                             navbarScroll
                         >
                             <NavDropdown title="Lista usług" id="navbarScrollingDropdown">
-                                <NavDropdown.Item>Behawioryści</NavDropdown.Item>
-                                <NavDropdown.Item>Hotele dla zwierząt / Petsitterzy</NavDropdown.Item>
-                                <NavDropdown.Item>Groomerzy</NavDropdown.Item>
-                                <NavDropdown.Item>Weterynarze</NavDropdown.Item>
+                                <NavDropdown.Item onClick={props.showServices}>Behawioryści</NavDropdown.Item>
+                                <NavDropdown.Item onClick={props.showServices}>Hotele dla zwierząt / Petsitterzy</NavDropdown.Item>
+                                <NavDropdown.Item onClick={props.showServices}>Groomerzy</NavDropdown.Item>
+                                <NavDropdown.Item onClick={props.showServices}>Weterynarze</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 {localStorage.getItem("userRoles").includes("PROVIDER") &&
                                 <NavDropdown.Item>Zaoferuj usługę</NavDropdown.Item>
