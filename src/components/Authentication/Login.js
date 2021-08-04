@@ -116,7 +116,7 @@ const Login = (props) => {
                     {(!validPassword && !emptyPasswordField) && errors.tooShortPassword}
                 </Form.Group>
                 <Form.Group>
-                    <Form.Check type="checkbox" label="Zapamiętaj mnie"/>
+                    <Form.Check type="checkbox" label="Zapamiętaj mnie" className={styles.checkbox}/>
                 </Form.Group>
                 <Button variant="primary" type="submit" onClick={loginHandler}>
                     Zaloguj
